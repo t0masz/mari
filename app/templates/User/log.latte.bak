@@ -1,0 +1,32 @@
+{block content}
+<h1 n:block=title>Log</h1>
+
+<div class="box">
+<p><a href="{link add}"><span class="glyphicon glyphicon-plus-sign"></span> Přidej nového uživatele</a></p>
+{if count($users) > 0}
+<table class="table table-condensed table-hover">
+  <tr>
+		<th>&nbsp;</th>
+		<th>Jméno</th>
+		<th>Role</th>
+		<th>E-mail</th>
+		<th>Akce</th>
+	</tr>
+  <tr n:foreach="$users as $user" rel="{$user->id}">
+	  <td>{$user->id}.</td>
+		<td>{$user->name}</td>
+		<td>{$user->role}</td>
+		<td><a href="mailto:{$user->email}">{$user->email}</a></td>
+		<td>
+			<a href="{link edit, $user->id, $page}" title="Upravit položku"><span class="glyphicon glyphicon-pencil"></span></a>&nbsp;&bull;&nbsp;
+			<a href="{link send!, $user->id}" data-confirm="Opravdu vygenerovat a poslat uživateli '{$user->name}' nové heslo?" title="Vygenerovat a odeslat nové heslo"><span class="glyphicon glyphicon-envelope"></span></a>&nbsp;&bull;&nbsp;
+			<a href="{link delete!, $user->id}" data-confirm="Opravdu smazat uživatele '{$user->name}'?" title="Smazat položku"><span class="glyphicon glyphicon-trash"></span></a>
+		</td>
+  </tr>
+</table>
+{control vp}
+{else}
+<p>Žádný uživatel neregistrován</p>
+{/if}
+</div>
+{/block}

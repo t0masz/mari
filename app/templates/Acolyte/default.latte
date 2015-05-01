@@ -1,0 +1,42 @@
+{var $title = 'Ministranti'}
+
+{block content}
+
+<h2>Služby ministrantů</h2>
+<div class="box">
+{snippet calendar}
+<p class="calendar"><a n:href="Acolyte: $prev" title="předchozí měsíc" class="ajax"><span class="glyphicon glyphicon-chevron-left"></span> předchozí měsíc</a>&nbsp;&nbsp;&bull;&nbsp;&nbsp;<a n:href="Acolyte:" title="aktuální měsíc" class="ajax"><span class="glyphicon glyphicon-calendar"></span> aktuální měsíc</a>&nbsp;&nbsp;&bull;&nbsp;&nbsp;<a n:href="Acolyte: $next" title="další měsíc" class="ajax"><span class="glyphicon glyphicon-chevron-right"></span> další měsíc</a></p>
+{/snippet}
+{if $user->isAllowed('Acolyte','edit')}
+<p><input type="text" class="form-control" id="acolyteName" placeholder="Jméno (zkratka) ministranta"></p>
+<p>{$text}</p>
+{/if}
+{snippet acolyte}
+{if $user->isAllowed('Acolyte','edit')}
+{var $html = "<i class='glyphicon glyphicon-hand-right text-success'></i> "}
+{else}
+{var $html = ""}
+{/if}
+<table id="acolyte" class="table table-bordered table-condensed table-striped">
+	<tr>
+		<th>datum</th>
+		<th>7.30</th>
+		<th>9.00</th>
+		<th>18.00</th>
+	</tr>
+	{if count($items) > 0}
+	{foreach $items as $item}
+	<tr data-date="{$item[date]}" n:class="$item[sun] ? info">
+		<td>{$item[date]|date:"D j. n."}</td>
+		<td data-id="{$item[id1]}" data-time="07:30">{$html|noescape}{$item[names1]}</td>
+		<td data-id="{$item[id2]}" data-time="09:00">{$html|noescape}{$item[names2]}</td>
+		<td data-id="{$item[id3]}" data-time="18:00">{$html|noescape}{$item[names3]}</td>
+	</tr>
+	{/foreach}
+	{/if}
+</table>
+{/snippet}
+</div>
+
+{/block}
+

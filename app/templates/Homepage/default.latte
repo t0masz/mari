@@ -1,0 +1,41 @@
+{block content}
+{if $user->isLoggedIn() && $user->isAllowed('Homepage','edit') }
+{snippet editor}
+	{form pageForm class => 'form-page', role => 'form'}
+		{input id}
+		<div class="well">
+		{input content class => "form-control"}
+		</div>
+		<div class="well">
+		{if !$user->isInRole('admin')}
+		<p class="text-danger lead">Prosím, tuto část formuláře neupravuj. Díky:-)</p>
+		{/if}
+		{label name /}{input name class => "form-control", readonly => "readonly"}
+		{label title /}{input title class => "form-control", readonly => "readonly"}
+		{label url /}{input url class => "form-control", readonly => "readonly"}
+		</div>
+		{input save class => "btn btn-lg btn-primary btn-block"}
+	{/form}
+{/snippet}
+{elseif !$user->isLoggedIn()}
+	<div rel="{$page->id}">{$page->content|noescape}</div>
+	{control images}
+{else}
+	<div rel="{$page->id}">{$page->content|noescape}</div>
+{/if}
+{/block}
+
+{block scripts}
+{include parent}
+{snippet js}
+{if $user->isLoggedIn() && $user->isAllowed('Homepage','edit')}
+<script type='text/javascript' language='javascript'>
+// <![CDATA[
+var editor = CKEDITOR.inline( 'frm-pageForm-content' );
+// ]]>
+</script>
+{/if}
+{/snippet}
+{/block}
+
+{block head}{/block}

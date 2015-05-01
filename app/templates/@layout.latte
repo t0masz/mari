@@ -1,0 +1,107 @@
+{**
+ * @param string   $basePath web base path
+ * @param array    $flashes  flash messages
+ *}
+
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<title>Kostel svaté Maří magdalény v Brně</title>
+
+	<link rel="stylesheet" href="{$basePath}/css/bootstrap.min.css?v=3.3.4">
+	{if !$user->isLoggedIn()}
+	<link rel="stylesheet" href="{$basePath}/css/jquery.fancybox.css?v=2.1.5">
+	<link rel="stylesheet" href="{$basePath}/css/jquery.bxslider.css?v=4.1.2">
+	{/if}
+	<link rel="stylesheet" href="{$basePath}/css/style.css">
+	<link rel="shortcut icon" href="{$basePath}/favicon.ico">
+	<!--Icon by Scott de Jonge (http://www.scottdejonge.com) from www.flaticon.com; licensed under Creative Commons BY 3.0 -->
+	{block head}
+	<meta name="robots" content="noindex, nofollow, noarchive">
+	{/block}
+</head>
+
+<body>
+	<script> document.documentElement.className+=' js' </script>
+	
+	<div class="container">
+		<div class="page-header">
+			<a n:href="Homepage:" title="Kostel svaté Maří Magdaleny v Brně"><h1>Kostel svaté Maří Magdaleny v Brně</h1></a>
+		</div>
+		{control menu}
+	
+		{snippet flashes}
+		<div n:foreach="$flashes as $flash" class="alert alert-{$flash->type}">
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			{$flash->message}
+		</div>
+		{/snippet}
+	
+	{include content}
+
+	</div>
+	{if $user->isLoggedIn()}
+	<footer class="footer">
+		<div class="container">
+			<p class="text-muted">&copy; {date('Y')} Římskokatolická duchovní správa u kostela sv. Maří Magdaleny</p>
+		</div>
+	</footer>
+	{else}
+	<footer class="footer">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-8"><p class="text-muted">&copy; {date('Y')} Římskokatolická duchovní správa u kostela sv. Maří Magdaleny</p></div>
+				<div class="col-md-4">
+					<button type="button" class="btn btn-default btn-xs" data-toggle="modal" data-target="#myModal" title="Přihlásit se">
+						<span class="glyphicon glyphicon-log-in" aria-hidden="true"></span>
+					</button>
+				</div>
+			</div>
+		</div>
+	</footer>
+	<!-- Modal -->
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	  <div class="modal-dialog">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	        <h4 class="modal-title" id="myModalLabel">Přihlásit se</h4>
+	      </div>
+	      <div class="modal-body">
+				{form signInForm class => 'form-signin', role => 'form'}
+					<div n:foreach="$form->errors as $error" class="flash alert alert-danger">
+						<button type="button" class="close" data-dismiss="alert">
+							<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+						</button>
+						<span class="glyphicon glyphicon-ban-circle"></span> {$error}
+					</div>
+					{input username class => "form-control", placeholder => "login", autofocus => TRUE}
+					{input password class => "form-control", placeholder => "password"}
+					{input login class => "btn btn-lg btn-primary btn-block"}
+				{/form}
+	      </div>
+	    </div>
+	  </div>
+	</div>
+	{/if}
+
+	{block scripts}
+	<script src="{$basePath}/js/jquery.min.js?v=1.11.2"></script>
+	<script src="{$basePath}/js/bootstrap.min.js?v=3.3.4"></script>
+	<script src="{$basePath}/js/netteForms.js"></script>
+	<script src="{$basePath}/js/nette.ajax.js?v=2.0.0"></script>
+	{if $user->isLoggedIn()}
+	<script src="{$basePath}/js/main.user.js"></script>
+	<script src="{$basePath}/js/ckeditor/ckeditor.js"></script>
+	{else}
+	<script src="{$basePath}/js/jquery.fancybox.pack.js?v=2.1.5"></script>
+	<script src="{$basePath}/js/jquery.bxslider.min.js?v=4.1.2"></script>
+	<script src="{$basePath}/js/main.js"></script>
+	{/if}
+	{/block}
+</body>
+</html>

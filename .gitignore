@@ -1,0 +1,15 @@
+/app/config/*.neon
+/licensed/*
+/log/*
+/temp/*
+/vendor/*
+/www/css/*
+!/www/css/style.css
+/www/images/*
+/www/images/thumbs/*
+/www/js/*
+!/www/js/main.js
+!/www/js/main.user.js
+!.htaccess
+*.komodoproject
+.komodotools

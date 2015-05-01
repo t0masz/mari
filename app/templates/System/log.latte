@@ -1,0 +1,21 @@
+{block content}
+<h2 n:block=title>SysLog</h2>
+
+<div class="box">
+{if count($logs) > 0}
+<table class="table table-condensed table-hover">
+  <tr>
+		<th>Datum</th>
+		<th>Hodnota</th>
+	</tr>
+  <tr n:foreach="$logs as $log" rel="{$log->id}">
+	  <td>{$log->ts|date:"j.n.Y G:i:s"}</td>
+		<td>{$log->values}</td>
+  </tr>
+</table>
+{control vp}
+{else}
+<p>Žádný log nevložen</p>
+{/if}
+</div>
+{/block}

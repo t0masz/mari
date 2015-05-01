@@ -1,0 +1,5 @@
+	<ul class="bxslider">
+		{foreach $images as $image}
+		<li><a href="{$basePath}/images/{$image->file}" title="{$image->description}" class="fancybox" data-fancybox-group="gallery"><img src="{$basePath}/images/thumbs/{$image->file}" title="{$iterator->counter}. {$image->description}"></a></li>
+		{/foreach}
+	</ul>
