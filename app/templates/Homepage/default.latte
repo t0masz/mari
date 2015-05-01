@@ -1,3 +1,7 @@
+{if $page->url != ''}
+{var $title = $page->title}
+{/if}
+
 {block content}
 {if $user->isLoggedIn() && $user->isAllowed('Homepage','edit') }
 {snippet editor}

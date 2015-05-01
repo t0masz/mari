@@ -10,7 +10,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 
-	<title>Kostel svaté Maří magdalény v Brně</title>
+	<title>{ifset $title}{$title} &bull; {/ifset}Kostel svaté Maří magdalény v Brně</title>
 
 	<link rel="stylesheet" href="{$basePath}/css/bootstrap.min.css?v=3.3.4">
 	{if !$user->isLoggedIn()}
