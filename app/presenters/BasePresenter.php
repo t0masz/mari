@@ -36,6 +36,11 @@ abstract class BasePresenter extends Nette\Application\UI\Presenter
 	{
 		$this->config = $setup;
 	}
+	
+	public function beforeRender()
+	{
+		$this->template->copy = $this->config->web['copy'];
+	}
 
 	protected function createComponentSignInForm($name)
 	{

@@ -8,6 +8,7 @@ parameters:
 	params:
 		web:
 			brand: Page Name
+			copy: Text for copyright
 			url: http://www.domain.tld/
 		mail:
 			adminName: Admin Name
@@ -30,7 +31,7 @@ nette:
 	application:
 		errorPresenter: Error
 		mapping:
-			*: App\*Module\Presenters\*Presenter
+			*: App\Presenters\*Presenter
 
 	session:
 		expiration: 14 days
@@ -57,11 +58,13 @@ services:
 			- addResource('Acolyte')
 			- addResource('Homepage')
 			- addResource('Image')
+			- addResource('Priest')
 			- addResource('System')
 			- addResource('User')
 			- allow('guest','Acolyte','default')
 			- allow('acolyte','Acolyte')
 			- allow('acolyte','System','mail')
+			- allow('priest','Priest')
 			- allow('editor','Homepage','edit')
 			- allow('editor','Image')
 			- allow('editor','User','password')
@@ -74,6 +77,8 @@ services:
 	- Model\ImageManager
 	- Model\PageRepository
 	- Model\PageManager
+	- Model\PriestRepository
+	- Model\PriestManager
 	- Model\LogRepository
 	- Model\LogManager
 	- Model\SetupManager(%params%)
