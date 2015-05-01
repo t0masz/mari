@@ -5,8 +5,8 @@ Simple page for Church of Saint Mary Magdalene
 
 - [x] In-line page edit
 - [x] Simple photogallery
-- [x] Planing calendar for acolytes
-- [ ] Planing calendar for priests
+- [x] Scheduling calendar for acolytes
+- [x] Scheduling calendar for priests
 
 ## Dependencies
 
