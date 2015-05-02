@@ -58,13 +58,6 @@ class AcolytePresenter extends BasePresenter
 		} else {
 			$this->flashMessage('Nemáš práva k editaci služeb!', 'danger');
 		}
-		$date = new \DateTime($date);
-		$days = $date->format('j')-1;
-		$date = $date->sub(new \DateInterval("P{$days}D"));
-		$this->template->items = $this->acolyteManager->findByDate($date->format('Y-m-d'));
-		$this->template->prev = $date->sub(new \DateInterval('P1M'))->format('Y-m-d');
-		$this->template->next = $date->add(new \DateInterval('P2M'))->format('Y-m-d');
-		$this->redrawControl();
 	}
 
 	public function renderDefault($date = NULL)
@@ -72,6 +65,7 @@ class AcolytePresenter extends BasePresenter
 		$date = new \DateTime($date);
 		$days = $date->format('j')-1;
 		$date = $date->sub(new \DateInterval("P{$days}D"));
+		$this->template->addFilter('czechDate', 'App\Helpers\Helpers::czechDate');
 		$this->template->items = $this->acolyteManager->findByDate($date->format('Y-m-d'));
 		$this->template->prev = $date->sub(new \DateInterval('P1M'))->format('Y-m-d');
 		$this->template->next = $date->add(new \DateInterval('P2M'))->format('Y-m-d');

@@ -3,10 +3,16 @@ Simple page for Church of Saint Mary Magdalene
 
 ## Functions
 
-- [x] In-line page edit
-- [x] Simple photogallery
-- [x] Scheduling calendar for acolytes
-- [x] Scheduling calendar for priests
+* In-line page edit
+* Simple photogallery
+* Scheduling calendar for acolytes
+* Scheduling calendar for priests
+
+## TODO
+- [ ] login form
+- [ ] update router
+- [ ] suggest names for scheduling
+- [ ] scheduling calendars - help
 
 ## Dependencies
 

@@ -27,7 +27,7 @@
 	{if count($items) > 0}
 	{foreach $items as $item}
 	<tr data-date="{$item[date]}" n:class="$item[sun] ? info">
-		<td>{$item[date]|date:"D j. n."}</td>
+		<td>{$item[date]|czechDate:"abbr"|firstUpper}</td>
 		<td data-id="{$item[id1]}" data-time="07:30">{$html|noescape}{$item[names1]}</td>
 		<td data-id="{$item[id2]}" data-time="09:00">{$html|noescape}{$item[names2]}</td>
 		<td data-id="{$item[id3]}" data-time="18:00">{$html|noescape}{$item[names3]}</td>
