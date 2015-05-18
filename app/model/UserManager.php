@@ -138,9 +138,9 @@ class UserManager extends Nette\Object
 		$password = $this->authenticator->calculateHash($newPassword);
 		$latte = new Latte\Engine;
 		if (!$user->sent) {
-			$template = 'app/templates/Email/firstPassword.latte';
+			$template = __DIR__ . '/../templates/Email/firstPassword.latte';
 		} else {
-			$template = 'app/templates/Email/newPassword.latte';
+			$template = __DIR__ . '/../templates/Email/newPassword.latte';
 		}
 		$params = array(
 			'password' => $newPassword,
