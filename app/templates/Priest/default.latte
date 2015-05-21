@@ -20,16 +20,16 @@
 <table id="priest" class="table table-bordered table-condensed table-striped">
 	<tr>
 		<th>datum</th>
-		<th>7.30</th>
-		<th>9.00</th>
+		<th>7.00</th>
+		<th>8.30</th>
 		<th>18.00</th>
 	</tr>
 	{if count($items) > 0}
 	{foreach $items as $item}
 	<tr data-date="{$item[date]}" n:class="$item[sun] ? info">
 		<td>{$item[date]|czechDate:"abbr"|firstUpper}</td>
-		<td data-id="{$item[id1]}" data-time="07:30">{$html|noescape}{$item[names1]}</td>
-		<td data-id="{$item[id2]}" data-time="09:00">{$html|noescape}{$item[names2]}</td>
+		<td data-id="{$item[id1]}" data-time="07:00">{$html|noescape}{$item[names1]}</td>
+		<td data-id="{$item[id2]}" data-time="08:30">{$html|noescape}{$item[names2]}</td>
 		<td data-id="{$item[id3]}" data-time="18:00">{$html|noescape}{$item[names3]}</td>
 	</tr>
 	{/foreach}

@@ -56,7 +56,6 @@ class PriestManager extends Nette\Object
 	 */
 	public function findByDate($date)
 	{
-#		\Tracy\Debugger::barDump($date);
 		$from = new \DateTime($date);
 		$date = new \DateTime($date);
 		$month['days'] = $date->format('t');
@@ -70,14 +69,11 @@ class PriestManager extends Nette\Object
 		}
 		$to = $date->sub(new \DateInterval("P1D"));
 		$result = $this->priestRepository->findBySql('date BETWEEN ? AND ?',array($from->format('Y-m-d'),$to->format('Y-m-d')));
-#		\Tracy\Debugger::barDump($services);
 		foreach($result as $item) {
-#			\Tracy\Debugger::barDump($item->time->format('%H:%I:%S'));
-			if ($item->time->format('%H:%I:%S') == '07:30:00') {
-#				\Tracy\Debugger::barDump($item->time);
+			if ($item->time->format('%H:%I:%S') == '07:00:00') {
 				$services[$item->date->format('Y-m-d')]['names1'] = $item->names;
 				$services[$item->date->format('Y-m-d')]['id1'] = $item->id;
-			} elseif ($item->time->format('%H:%I:%S') == '09:00:00') {
+			} elseif ($item->time->format('%H:%I:%S') == '08:30:00') {
 				$services[$item->date->format('Y-m-d')]['names2'] = $item->names;
 				$services[$item->date->format('Y-m-d')]['id2'] = $item->id;
 			} elseif ($item->time->format('%H:%I:%S') == '18:00:00') {
@@ -103,13 +99,10 @@ class PriestManager extends Nette\Object
 	 */
 	public function save($values)
 	{
-		\Tracy\Debugger::log($values);
-#		return TRUE;
 		if (isset($values['id']) && ($values['id'] > 0)) {
 			$id = $values['id'];
 			unset($values['id']);
 			$result = $this->priestRepository->findBy(array('id' => (int)$id))->update($values);
-#			\Tracy\Debugger::log($result);
 			$return = $result > 0 ? 'updated' : FALSE;
 		} else {
 			$result = $this->priestRepository->insert($values);
