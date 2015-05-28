@@ -4,29 +4,42 @@
 
 <h2>Fotogalerie</h2>
 <div class="box">
-<p><a href="{link upload}" title="Upload souborů pomocí HTML5"><span class="glyphicon glyphicon-upload"></span> 1. Upload fotek na server</a>&nbsp;&bull;&nbsp;<a href="{link import!}" title="Import nahraných fotek do fotogalerie"><span class="glyphicon glyphicon-refresh"></span> 2. Importuj fotky do galerie</a></p>
-{if isset($pictures) && count($pictures) > 0}
-<table class="table table-condensed table-hover">
-  <tr>
-		<th>&nbsp;</th>
-		<th>Náhled</th>
-		<th>popis</th>
-		<th>Akce</th>
-	</tr>
-  <tr n:foreach="$pictures as $picture" rel="{$picture->id}">
-	  <td>{$picture->id}.</td>
-		<td><img src="{$basePath}/images/thumbs/{$picture->file}" title="{$picture->description}" height="90"></td>
-		<td>{$picture->description}</td>
-		<td>
+	{if isset($pictures) && count($pictures) > 0}
+	<table class="table table-condensed table-hover">
+		<tr>
+			<th>&nbsp;</th>
+			<th>Náhled</th>
+			<th>popis</th>
+			<th>Akce</th>
+		</tr>
+			<tr n:foreach="$pictures as $picture" rel="{$picture->id}">
+			<td>{$picture->id}.</td>
+			<td><img src="{$basePath}/images/thumbs/{$picture->file}" title="{$picture->description}" height="90"></td>
+			<td>{$picture->description}</td>
+			<td>
 			<a href="{link edit, $picture->id}" title="Upravit položku"><span class="glyphicon glyphicon-pencil"></span>&nbsp;upravit</a>&nbsp;&bull;&nbsp;
 			<a href="{link delete!, $picture->id}" data-confirm="Opravdu smazat obrázek '{$picture->file}'?" title="Smazat položku"><span class="glyphicon glyphicon-trash"></span></a>
-		</td>
-  </tr>
-</table>
-{control vp}
-{else}
-<p>Žádná fotka nevložena</p>
-{/if}
+			</td>
+		</tr>
+	</table>
+	{control vp}
+	{else}
+	<p>Žádná fotka nevložena</p>
+	{/if}
 </div>
 
+<div class="box">
+	<h2>Nahrát nové soubory</h2>
+	<div id="dropbox">
+		<span class="message">Přetáhni sem obrázky pro nahrání na server.<br /><i>(maximálně 10 souborů; každý max. 2 MB)</i></span>
+	</div>
+	<p><a n:href="import!">Importuj</a> nahrané soubory do fotogalerie.</p>
+</div>
+
+{/block}
+
+{block scripts}
+{include parent}
+<script type="text/javascript" src="{$basePath}/js/jquery.filedrop.js"></script>
+<script type="text/javascript" src="{$basePath}/js/html5.upload.js"></script>
 {/block}

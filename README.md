@@ -13,6 +13,7 @@ Simple page for Church of Saint Mary Magdalene
 - [ ] update router
 - [ ] suggest names for scheduling
 - [ ] scheduling calendars - help
+- [ ] photogallery - new administration
 
 ## Dependencies
 

@@ -23,7 +23,7 @@ class RouterFactory
 		$router[] = new Route('/[<id historie|kostel|>/]', 'Homepage:default');
 		$router[] = new Route('/ministranti/', 'Acolyte:default');
 		$router[] = new Route('/celebranti/', 'Priest:default');
-		$router[] = new Route('<presenter>/<action>[/<id>]', 'Homepage:default');
+		$router[] = new Route('<presenter>[/<action>][/<id>]', 'Homepage:default');
 		return $router;
 	}
 

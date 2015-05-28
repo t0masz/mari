@@ -29,7 +29,7 @@ abstract class BasePresenter extends Nette\Application\UI\Presenter
 	public $httpRequest;
 
 	/** @var Model\SetupManager */
-	private $config;
+	public $config;
 
 
 	public function __construct(Model\SetupManager $setup)
