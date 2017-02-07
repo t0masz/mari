@@ -13,6 +13,7 @@
 				{foreach $pages as $item}
 				<li {ifCurrent Homepage:default, $item->url}class="active"{/ifCurrent}><a href="{plink Homepage:default, $item->url}" title="{$item->title}">{$item->name}</a></li>
 				{/foreach}
+				<li {ifCurrent Priest:default, $item->url}class="active"{/ifCurrent}><a href="{plink Priest:default}" title="Celebranti">Celebranti</a></li>
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
 				{if $user->isLoggedIn()}
