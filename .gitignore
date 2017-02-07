@@ -3,6 +3,7 @@
 /log/*
 /temp/*
 /vendor/*
+/www/adminer/index.php
 /www/css/*
 !/www/css/style.css
 /www/images/*
