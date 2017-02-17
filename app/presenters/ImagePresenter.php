@@ -23,11 +23,7 @@ class ImagePresenter extends SecurePresenter
 	
 	public function renderDefault($id)
 	{
-		$vp = $this['vp'];
-		$paginator = $vp->paginator;
-		$paginator->itemCount = $this->imageManager->getCountAll();
-		$this->template->page = $paginator->page;
-		$this->template->pictures = $this->imageManager->findAll()->limit($paginator->itemsPerPage,$paginator->offset);
+		$this->template->pictures = $this->imageManager->findAll();
 	}
 
 	public function actionEdit($id)

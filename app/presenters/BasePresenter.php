@@ -7,7 +7,7 @@ use Model,
 	Nette\DateTime,
 	Nette\Utils\Json,
 	App\Components,
-	Nette\Forms\Controls\SubmitButton;
+	Nette\Forms\Controls;
 
 
 /**
@@ -45,16 +45,16 @@ abstract class BasePresenter extends Nette\Application\UI\Presenter
 	protected function createComponentSignInForm($name)
 	{
 		$form = new SignInForm($this, $name);
-		$form['login']->onClick[] = callback($this, 'signInFormSucceeded');
+		$form->onSuccess[] = [$this, 'signInFormSucceeded'];
 		return $form;
 	}
 
-	public function signInFormSucceeded(SubmitButton $button)
+	public function signInFormSucceeded(SignInForm $form)
 	{
-		$values = $button->getForm()->getValues();
+		$values = $form->getValues();
 
 		$log = array(
-			'ts' => new DateTime,
+			'ts' => new \DateTime,
 			'values' => '',
 		);
 		$logValues = array(
@@ -81,19 +81,22 @@ abstract class BasePresenter extends Nette\Application\UI\Presenter
 			$this->redirect('this');
 	}
 
-	public function createComponentVp($name)
-	{
-		$visualPaginator = new \VisualPaginator($this, $name);
-		$visualPaginator->paginator->itemsPerPage = $this->config->paging;
-		return $visualPaginator;
-	}
-
+    /**
+     * Create main menu
+     *
+     * @return Components\Menu
+     */
 	public function createComponentMenu()
 	{
 		$menu = new Components\Menu($this->pageManager);
 		return $menu;
 	}
 
+    /**
+     * Create image gallery component
+     *
+     * @return Components\Images
+     */
 	public function createComponentImages()
 	{
 		$images = new Components\Images($this->imageManager);

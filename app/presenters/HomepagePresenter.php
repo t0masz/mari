@@ -19,7 +19,6 @@ class HomepagePresenter extends BasePresenter
 
 	public function renderDefault($id)
 	{
-#		\Tracy\Debugger::barDump($id);
 		if ($id == '') {
 			$page = $this->pageManager->getById(1);
 		} else {
@@ -40,13 +39,13 @@ class HomepagePresenter extends BasePresenter
 	protected function createComponentPageForm($name)
 	{
 		$form = new Forms\PageForm($this, $name);
-		$form['save']->onClick[] = callback($this, 'pageFormSucceeded');
+		$form->onSuccess[] = [$this, 'pageFormSucceeded'];
 		return $form;
 	}
 
-	public function pageFormSucceeded(SubmitButton $button)
+	public function pageFormSucceeded(PageForm $form)
 	{
-		$values = $button->getForm()->getValues();
+		$values = $form->getValues();
 		if($this->getUser()->isLoggedIn() && $this->getUser()->isAllowed('Homepage','edit')) {
 		$return = $this->pageManager->save((array) $values, $values->id);
 			if($return) {
