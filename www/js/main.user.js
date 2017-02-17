@@ -1,7 +1,7 @@
 $(function(){
 	$.nette.ext({
 		load: function () {
-			$('#acolyte tr td').click(function(e){
+			$('#acolyte tr td.ms').click(function(e){
 				e.preventDefault();
 				$.nette.ajax({
 					url:'?do=acolyte',
@@ -13,7 +13,7 @@ $(function(){
 					}
 				});
 			});
-			$('#priest tr td').click(function(e){
+			$('#priest tr td.ms').click(function(e){
 				e.preventDefault();
 				$.nette.ajax({
 					url:'?do=priest',

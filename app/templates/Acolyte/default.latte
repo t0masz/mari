@@ -28,9 +28,9 @@
 	{foreach $items as $item}
 	<tr data-date="{$item[date]}" n:class="$item[sun] ? info">
 		<td>{$item[date]|czechDate:"abbr"|firstUpper}</td>
-		<td data-id="{$item[id1]}" data-time="07:00">{$html|noescape}{$item[names1]}</td>
-		<td data-id="{$item[id2]}" data-time="08:30">{$html|noescape}{$item[names2]}</td>
-		<td data-id="{$item[id3]}" data-time="18:00">{$html|noescape}{$item[names3]}</td>
+		<td class="ms" data-id="{$item[id1]}" data-time="07:00">{$html|noescape}{$item[names1]}</td>
+		<td class="ms" data-id="{$item[id2]}" data-time="08:30">{$html|noescape}{$item[names2]}</td>
+		<td class="ms" data-id="{$item[id3]}" data-time="18:00">{$html|noescape}{$item[names3]}</td>
 	</tr>
 	{/foreach}
 	{/if}
