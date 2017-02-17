@@ -19,7 +19,7 @@ class Menu extends Control
 	public function render()
 	{
 		$this->template->setFile(__DIR__ . '/Menu.latte');
-		$this->template->pages = $this->pageManager->findAll()->order('id');
+		$this->template->pages = $this->pageManager->findAll()->order('order');
 		$this->template->render();
 	}
 

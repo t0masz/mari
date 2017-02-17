@@ -11,9 +11,8 @@
 		<div class="collapse navbar-collapse" id="mm-navbar-collapse">
 			<ul class="nav navbar-nav">
 				{foreach $pages as $item}
-				<li {ifCurrent Homepage:default, $item->url}class="active"{/ifCurrent}><a href="{plink Homepage:default, $item->url}" title="{$item->title}">{$item->name}</a></li>
+				<li {ifCurrent $item->type, $item->url}class="active"{/ifCurrent}><a href="{plink $item->type, $item->url}" title="{$item->title}">{$item->name}</a></li>
 				{/foreach}
-				<li {ifCurrent Priest:default, $item->url}class="active"{/ifCurrent}><a href="{plink Priest:default}" title="Celebranti">Celebranti</a></li>
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
 				{if $user->isLoggedIn()}
@@ -23,14 +22,14 @@
 						{if $user->isInRole('editor') || $user->isInRole('admin')}
 						<li><a href="{plink Image:}"><span class="glyphicon glyphicon-camera" aria-hidden="true"></span> Fotogalerie</a></li>
 						{if $user->isInRole('admin')}
-						<li><a href="{plink User:}"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Uživatelé</a></li>
+						<li><a href="{plink User:default}"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Uživatelé</a></li>
 						{/if}
 						<li><a href="{plink System:log}"><span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span> Log (přihlášení)</a></li>
 						{/if}
 						<li><a href="{plink User:password}"><span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span> Změnit heslo</a></li>
 						<li class="divider"></li>
-						<li><a href="{plink Acolyte:}"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span> Ministranti</a></li>
-						<li><a href="{plink Priest:}"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span> Celebranti</a></li>
+						<li><a href="{plink Acolyte:default}"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span> Ministranti</a></li>
+						<li><a href="{plink Priest:default}"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span> Celebranti</a></li>
 						<li class="divider"></li>
 						<li><a href="{plink System:mail}"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span> E-mail webmasterovi</a></li>
 						<li class="divider"></li>
