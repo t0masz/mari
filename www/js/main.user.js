@@ -1,3 +1,9 @@
+/**
+ * User scripts - for logged users
+ *
+ * Version 2017-02-18
+ */
+
 $(function($, undefined){
 	$.nette.ext('confirm', {
 		load: function () {
