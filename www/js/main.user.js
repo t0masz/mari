@@ -1,5 +1,22 @@
-$(function(){
-	$.nette.ext({
+$(function($, undefined){
+	$.nette.ext('confirm', {
+		load: function () {
+			$('[data-confirm]').click(function(e){
+				e.preventDefault();
+				var ret = true;
+				if ($(this).data().id > 0) {
+					ret = confirm($(this).data().confirm);
+				}
+				if (ret == true) {
+					return true;
+				} else {
+					e.stopImmediatePropagation();
+					return false;					
+				}
+			});
+		}
+	});
+	$.nette.ext('setData', {
 		load: function () {
 			$('#acolyte tr td.ms').click(function(e){
 				e.preventDefault();
@@ -28,8 +45,4 @@ $(function(){
 		}
 	});
 	$.nette.init();
-});
-
-$('[data-confirm]').click(function(){
-	return confirm($(this).data().confirm);
 });
