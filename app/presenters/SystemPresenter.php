@@ -25,7 +25,7 @@ class SystemPresenter extends SecurePresenter
 	public function renderLog()
 	{
 		$vp = $this['vp'];
-		$paginator = $vp->paginator;
+		$paginator = $vp->getPaginator();
 		$paginator->itemCount = $this->logManager->getCountAll();
 		$this->template->page = $paginator->page;
 		$this->template->logs = $this->logManager->findLast($paginator->itemsPerPage,$paginator->offset);

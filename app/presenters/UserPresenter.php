@@ -24,7 +24,7 @@ class UserPresenter extends SecurePresenter
 	{
 		if($this->getUser()->isLoggedIn() && $this->getUser()->isAllowed('Homepage','edit')) {
 			$vp = $this['vp'];
-			$paginator = $vp->paginator;
+			$paginator = $vp->getPaginator();
 			$paginator->itemCount = $this->userManager->getCountAll();
 			$this->template->page = $paginator->page;
 			$this->template->users = $this->userManager->findAll($paginator->itemsPerPage,$paginator->offset);

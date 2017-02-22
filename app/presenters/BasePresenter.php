@@ -103,6 +103,18 @@ abstract class BasePresenter extends Nette\Application\UI\Presenter
 		return $images;
 	}
 
+    /**
+     * Create visual paginator component
+     *
+     * @return VisualPaginator
+     */
+	public function createComponentVp($name)
+	{
+		$visualPaginator = new \VisualPaginator($this, $name);
+		$visualPaginator->getPaginator()->itemsPerPage = $this->config->paging;
+		return $visualPaginator;
+	}
+
 	public function handleSignOut()
 	{
 		$this->getUser()->logout();
