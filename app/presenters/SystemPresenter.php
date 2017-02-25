@@ -3,7 +3,6 @@
 namespace App\Presenters;
 
 use Nette,
-	Nette\Forms\Controls\SubmitButton,
 	Model,
 	App\Forms;
 
@@ -34,13 +33,13 @@ class SystemPresenter extends SecurePresenter
 	protected function createComponentAdminMailForm($name)
 	{
 		$form = new Forms\AdminMailForm($this, $name);
-		$form['ok']->onClick[] = callback($this, 'adminMailFormSubmitted');
+		$form->onSuccess[] = [$this, 'adminMailFormSubmitted'];
 		return $form;
 	}
 
-	public function adminMailFormSubmitted(SubmitButton $button)
+	public function adminMailFormSubmitted(Forms\AdminMailForm $form)
 	{
-		$values = $button->getForm()->getValues();
+		$values = $form->getValues();
 		$result = $this->systemManager->sendMailToAdmin($values,$this->getUser()->Identity);
 
 		if ($result === TRUE) {

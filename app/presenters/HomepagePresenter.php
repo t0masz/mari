@@ -43,7 +43,7 @@ class HomepagePresenter extends BasePresenter
 		return $form;
 	}
 
-	public function pageFormSucceeded(PageForm $form)
+	public function pageFormSucceeded(Forms\PageForm $form)
 	{
 		$values = $form->getValues();
 		if($this->getUser()->isLoggedIn() && $this->getUser()->isAllowed('Homepage','edit')) {

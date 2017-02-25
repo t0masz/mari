@@ -21,7 +21,7 @@ class UserForm extends Form {
 		$this->addText('username', 'Uživatelské jméno');
 		$this->addText('email', 'E-mail');
 		$this->addSelect('role', 'Práva', array('admin' => 'Admin', 'editor' => 'Editor', 'priest' => 'Kněz', 'acolyte' => 'Ministrant'))
-			->addRule(Form::FILLED, 'Musíte vybrat uživatelská práva!');
+			->setRequired('Musíte vybrat uživatelská práva!');
 		$this->addPassword('password', 'Nové heslo');
 		$this->addSubmit('ok', 'Uložit');
 

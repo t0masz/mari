@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Presenters;
+namespace App\Forms;
 
 use Nette\Application\UI\Form,
     Nette\ComponentModel\IContainer;

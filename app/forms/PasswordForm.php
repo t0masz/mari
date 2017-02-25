@@ -18,11 +18,12 @@ class PasswordForm extends Form {
 	protected function buildForm()
 	{
 		$this->addPassword('oldPassword', 'Staré heslo')
-			->addRule(Form::FILLED, 'Je nutné zadat staré heslo.');
+			->setRequired('Je nutné zadat staré heslo.');
 		$this->addPassword('newPassword', 'Nové heslo')
+			->setRequired('Je nutné zadat nové heslo.')
 			->addRule(Form::MIN_LENGTH, 'Nové heslo musí mít alespoň %d znaků.', 6);
 		$this->addPassword('confirmPassword', 'Potvrzení hesla')
-			->addRule(Form::FILLED, 'Nové heslo je nutné zadat ještě jednou pro potvrzení.')
+			->setRequired('Nové heslo je nutné zadat ještě jednou pro potvrzení.')
 			->addRule(Form::EQUAL, 'Zadná hesla se neshodují!', $this['newPassword']);
 		$this->addSubmit('ok', 'Změnit heslo');
 

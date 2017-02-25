@@ -3,7 +3,6 @@
 namespace App\Presenters;
 
 use Nette,
-	Nette\Forms\Controls\SubmitButton,
 	Model,
 	App\Forms;
 
@@ -65,13 +64,13 @@ class UserPresenter extends SecurePresenter
 	protected function createComponentUserForm($name)
 	{
 		$form = new Forms\UserForm($this, $name);
-		$form['ok']->onClick[] = callback($this, 'userFormSubmitted');
+		$form->onSuccess[] = [$this, 'userFormSubmitted'];
 		return $form;
 	}
 
-	public function userFormSubmitted(SubmitButton $button)
+	public function userFormSubmitted(Forms\UserForm $form)
 	{
-		$values = $button->getForm()->getValues();
+		$values = $form->getValues();
 		$result = $this->userManager->save($values,$this->id);
 
 		$this->id = NULL;
@@ -88,14 +87,14 @@ class UserPresenter extends SecurePresenter
 	protected function createComponentPasswordForm($name)
 	{
 		$form = new Forms\PasswordForm($this, $name);
-		$form['ok']->onClick[] = callback($this, 'passwordFormSubmitted');
+		$form->onSuccess[] = [$this, 'passwordFormSubmitted'];
 		return $form;
 	}
 
-	public function passwordFormSubmitted(SubmitButton $button)
+	public function passwordFormSubmitted(Forms\PasswordForm $form)
 	{
 		if($this->getUser()->isLoggedIn()) {
-			$values = $button->getForm()->getValues();
+			$values = $form->getValues();
 			$result = $this->userManager->savePassword($values,$this->user->Identity->id);
 	
 			$this->id = NULL;

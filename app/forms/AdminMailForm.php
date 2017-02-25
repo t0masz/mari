@@ -18,7 +18,7 @@ class AdminMailForm extends Form {
 	protected function buildForm()
 	{
 		$this->addTextArea('message', 'Text zprávy')
-			->addRule(Form::FILLED, 'Je nutné vyplnit zprávu.');
+			->setRequired('Je nutné vyplnit zprávu.');
 		$this->addSubmit('ok', 'Poslat zprávu');
 
 		// setup form rendering
