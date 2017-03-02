@@ -3,10 +3,9 @@
 {block content}
 
 <h2>Celebranti</h2>
+<p>rozpis služeb na <strong>{$date|czechDate:"monthY"}</strong></p>
 <div class="box">
-{snippet calendar}
-<p class="calendar"><a n:href="Priest: $prev" title="předchozí měsíc" class="ajax"><span class="glyphicon glyphicon-chevron-left"></span> předchozí měsíc</a>&nbsp;&nbsp;&bull;&nbsp;&nbsp;<a n:href="Priest:" title="aktuální měsíc" class="ajax"><span class="glyphicon glyphicon-calendar"></span> aktuální měsíc</a>&nbsp;&nbsp;&bull;&nbsp;&nbsp;<a n:href="Priest: $next" title="další měsíc" class="ajax"><span class="glyphicon glyphicon-chevron-right"></span> další měsíc</a></p>
-{/snippet}
+{control navigation}
 {if $user->isAllowed('Priest','edit')}
 <p><input type="text" class="form-control" id="priestName" placeholder="Jméno celebranta"></p>
 <p>{$text}</p>
@@ -26,11 +25,11 @@
 	</tr>
 	{if count($items) > 0}
 	{foreach $items as $item}
-	<tr data-date="{$item[date]}" n:class="$item[sun] ? info">
+	<tr {if $user->isAllowed('Priest','edit')}data-date="{$item[date]}" {/if}n:class="$item[sun] ? info">
 		<td>{$item[date]|czechDate:"abbr"|firstUpper}</td>
-		<td class="ms" data-time="07:00" {if isset($item[id1]) && $item[id1]>0}data-id="{$item[id1]}" data-confirm="Opravdu editovat uloženou hodnotu?"{/if}>{$html|noescape}{$item[names1]}</td>
-		<td class="ms" data-time="08:30" {if isset($item[id2]) && $item[id2]>0}data-id="{$item[id2]}" data-confirm="Opravdu editovat uloženou hodnotu?"{/if}>{$html|noescape}{$item[names2]}</td>
-		<td class="ms" data-time="18:00" {if isset($item[id3]) && $item[id3]>0}data-id="{$item[id3]}" data-confirm="Opravdu editovat uloženou hodnotu?"{/if}>{$html|noescape}{$item[names3]}</td>
+		<td {if $user->isAllowed('Priest','edit')}class="ms" data-time="07:00" data-id="{$item[id1]}" data-confirm="Opravdu editovat uloženou hodnotu?"{/if}>{$html|noescape}{$item[names1]}</td>
+		<td {if $user->isAllowed('Priest','edit')}class="ms" data-time="08:30" data-id="{$item[id2]}" data-confirm="Opravdu editovat uloženou hodnotu?"{/if}>{$html|noescape}{$item[names2]}</td>
+		<td {if $user->isAllowed('Priest','edit')}class="ms" data-time="18:00" data-id="{$item[id3]}" data-confirm="Opravdu editovat uloženou hodnotu?"{/if}>{$html|noescape}{$item[names3]}</td>
 	</tr>
 	{/foreach}
 	{/if}

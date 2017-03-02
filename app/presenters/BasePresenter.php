@@ -7,6 +7,7 @@ use Model,
 	Nette\DateTime,
 	Nette\Utils\Json,
 	App\Components,
+	App\Forms,
 	Nette\Forms\Controls;
 
 
@@ -44,12 +45,12 @@ abstract class BasePresenter extends Nette\Application\UI\Presenter
 
 	protected function createComponentSignInForm($name)
 	{
-		$form = new SignInForm($this, $name);
+		$form = new Forms\SignInForm($this, $name);
 		$form->onSuccess[] = [$this, 'signInFormSucceeded'];
 		return $form;
 	}
 
-	public function signInFormSucceeded(SignInForm $form)
+	public function signInFormSucceeded(Forms\SignInForm $form)
 	{
 		$values = $form->getValues();
 
@@ -101,6 +102,17 @@ abstract class BasePresenter extends Nette\Application\UI\Presenter
 	{
 		$images = new Components\Images($this->imageManager);
 		return $images;
+	}
+
+    /**
+     * Create calendar navigation component
+     *
+     * @return Components\Navigation
+     */
+	public function createComponentNavigation()
+	{
+		$navigation = new Components\Navigation();
+		return $navigation;
 	}
 
     /**

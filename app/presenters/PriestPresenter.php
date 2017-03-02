@@ -56,13 +56,13 @@ class PriestPresenter extends BasePresenter
 
 	public function renderDefault($date = NULL)
 	{
-		$date = new \DateTime($date);
+		$navigation = $this['navigation'];
+		$date = new \DateTime($navigation->date);
+		$this->template->date = $date->format('Y-m-d');
 		$days = $date->format('j')-1;
 		$date = $date->sub(new \DateInterval("P{$days}D"));
 		$this->template->addFilter('czechDate', 'App\Helpers\Helpers::czechDate');
 		$this->template->items = $this->priestManager->findByDate($date->format('Y-m-d'));
-		$this->template->prev = $date->sub(new \DateInterval('P1M'))->format('Y-m-d');
-		$this->template->next = $date->add(new \DateInterval('P2M'))->format('Y-m-d');
 		if($this->getUser()->isLoggedIn() && $this->getUser()->isAllowed('Priest','edit')) {
 			$this->template->text = "editace pouze pro přihlášené s právy";
 		} else {

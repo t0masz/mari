@@ -21,8 +21,8 @@ class RouterFactory
 	{
 		$router = new RouteList();
 		$router[] = new Route('/[<id historie|kostel|>/]', 'Homepage:default');
-		$router[] = new Route('/ministranti/', 'Acolyte:default');
-		$router[] = new Route('/celebranti/', 'Priest:default');
+		$router[] = new Route('/ministranti/[<navigation-date>]', 'Acolyte:default');
+		$router[] = new Route('/celebranti/[<navigation-date>]', 'Priest:default');
 		$router[] = new Route('<presenter>[/<action>][/<id>]', 'Homepage:default');
 		return $router;
 	}

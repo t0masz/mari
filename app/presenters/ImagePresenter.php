@@ -2,7 +2,6 @@
 namespace App\Presenters;
 
 use Nette,
-	Nette\Forms\Controls\SubmitButton,
 	Model,
 	App\Forms,
 	Nette\Utils\Strings,
@@ -104,13 +103,13 @@ class ImagePresenter extends SecurePresenter
 	protected function createComponentPictureForm($name)
 	{
 		$form = new Forms\PictureForm($this, $name);
-		$form['ok']->onClick[] = callback($this, 'pictureFormSubmitted');
+		$form->onSuccess[] = [$this, 'pictureFormSubmitted'];
 		return $form;
 	}
 	
-	public function pictureFormSubmitted(SubmitButton $button)
+	public function pictureFormSubmitted(Forms\PictureForm $form)
 	{
-		$values = $button->getForm()->getValues();
+		$values = $form->getValues();
 		$result = $this->imageManager->save($values);
 		if ($result == 'inserted') {
 			$this->flashMessage('Nový obrázek byl vytvořen.', 'success');
