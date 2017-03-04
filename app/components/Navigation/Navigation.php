@@ -3,7 +3,9 @@
 namespace App\Components;
 
 use	Model,
-	Nette\Application\UI\Control;
+	App\Forms,
+	Nette\Application\UI\Control,
+	Vodacek\Forms\Controls\DateInput;
 
 class Navigation extends Control
 {
@@ -26,7 +28,6 @@ class Navigation extends Control
 
 	public function render()
 	{
-#		\Tracy\Debugger::barDump($this->date);
 		$this->template->setFile(__DIR__ . '/Navigation.latte');
 		$date = new \DateTime($this->date);
 		$this->template->date = $date->format('Y-m-d');
@@ -37,6 +38,23 @@ class Navigation extends Control
 		$this->template->render();
 	}
 
+	protected function createComponentCalendarForm()
+	{
+		$date = isset($this->date) ? $this->date : date('Y-m-d');
+		$form = new Forms\CalendarForm();
+		$form->addDate('date', 'Datum:', DateInput::TYPE_DATE)
+			->setDefaultValue(new \DateTime($date))
+			->setAttribute('class', 'form-control')
+			->setAttribute('onchange', 'submit()');
+		$form->onSuccess[] = [$this, 'calendarFormSubmited'];
+		return $form;
+	}
+
+	public function calendarFormSubmited(Forms\CalendarForm $form)
+	{
+		$values = $form->getValues();
+		$this->redirect('this', array('date' => $values->date->format('Y-m-d')));
+	}
 
 	/**
 	 * Loads state informations.
@@ -46,7 +64,6 @@ class Navigation extends Control
 	public function loadState(array $params)
 	{
 		parent::loadState($params);
-		\Tracy\Debugger::barDump($params);
 		$this->getNavigation()->date = $this->date;
 	}
 }

@@ -1,7 +1,12 @@
 {snippet calendar}
-<p class="calendar">
-	<a href="{link this, 'date' => $prev}" title="předchozí měsíc"><span class="glyphicon glyphicon-chevron-left"></span> předchozí měsíc</a>&nbsp;&nbsp;&bull;&nbsp;&nbsp;
+<div class="calendar">
+	<a href="{link this, 'date' => $prev}" title="předchozí měsíc"><span class="glyphicon glyphicon-chevron-left"></span> předchozí</a>&nbsp;&nbsp;&bull;&nbsp;&nbsp;
 	<a href="{link this, 'date' => null}" title="aktuální měsíc"><span class="glyphicon glyphicon-calendar"></span> aktuální měsíc</a>&nbsp;&nbsp;&bull;&nbsp;&nbsp;
-	<a href="{link this, 'date' => $next}" title="další měsíc"><span class="glyphicon glyphicon-chevron-right"></span> další měsíc</a>
-</p>
+	<a href="{link this, 'date' => $next}" title="další měsíc"><span class="glyphicon glyphicon-chevron-right"></span> další</a>
+</div>
+<div class="calendar">
+	{form calendarForm}
+		{input date}
+	{/form}
+</div>
 {/snippet}

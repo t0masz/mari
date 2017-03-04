@@ -39,6 +39,20 @@ h4, .h4 {
 td, th {
 	width: 25%;
 }
+/* calendar form*/
+.ui-datepicker td, .ui-datepicker th {
+	width: auto;
+}
+div .calendar {
+	padding-bottom: 5px;
+}
+div .calendar input {
+	width: 165px;
+	margin: 0 auto;
+}
+input.hasDatepicker {
+	background: #fff url(images/calendar.png) 100% 50% no-repeat;
+}
 .actions {
 	white-space: nowrap;
 }

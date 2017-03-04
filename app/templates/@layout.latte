@@ -17,7 +17,10 @@
 	<link rel="stylesheet" href="{$basePath}/css/jquery.fancybox.css?v=2.1.5">
 	<link rel="stylesheet" href="{$basePath}/css/jquery.bxslider.css?v=4.1.2">
 	{/if}
-	<link rel="stylesheet" href="{$basePath}/css/style.css">
+	<link rel="stylesheet" href="{$basePath}/css/jquery-ui.min.css?v=1.11.4">
+	<link rel="stylesheet" href="{$basePath}/css/jquery-ui-timepicker-addon.min.css?v=1.6.3">
+	<link rel="stylesheet" href="{$basePath}/css/dateInput.css">
+	<link rel="stylesheet" href="{$basePath}/css/style.css?v=2017-03-04">
 	<link rel="shortcut icon" href="{$basePath}/favicon.ico">
 	<!--Icon by Scott de Jonge (http://www.scottdejonge.com) from www.flaticon.com; licensed under Creative Commons BY 3.0 -->
 	{block head}
@@ -91,16 +94,20 @@
 
 	{block scripts}
 	<script src="{$basePath}/js/jquery.min.js?v=1.11.2"></script>
+	<script src="{$basePath}/js/jquery-ui.min.js?v=1.11.4"></script>
 	<script src="{$basePath}/js/bootstrap.min.js?v=3.3.4"></script>
 	<script src="{$basePath}/js/netteForms.js?v=2.4.3"></script>
 	<script src="{$basePath}/js/nette.ajax.js?v=2.0.0"></script>
+	<script src="{$basePath}/js/jquery-ui-timepicker-addon.min.js?v=1.6.3"></script>
+	<script src="{$basePath}/js/jquery-ui-timepicker-cs.js?v=1.6.3"></script>
+	<script src="{$basePath}/js/dateInput.js"></script>
 	{if $user->isLoggedIn()}
-	<script src="{$basePath}/js/main.user.js?v=20170218"></script>
+	<script src="{$basePath}/js/main.user.js?v=2017-03-04"></script>
 	<script src="{$basePath}/js/ckeditor/ckeditor.js?v=4.6.2"></script>
 	{else}
 	<script src="{$basePath}/js/jquery.fancybox.pack.js?v=2.1.5"></script>
 	<script src="{$basePath}/js/jquery.bxslider.min.js?v=4.1.2"></script>
-	<script src="{$basePath}/js/main.js?v=20150501"></script>
+	<script src="{$basePath}/js/main.js?v=2017-03-04"></script>
 	{/if}
 	{/block}
 </body>

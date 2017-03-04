@@ -13,7 +13,7 @@ $(function($, undefined){
 				if ($(this).data().id > 0) {
 					ret = confirm($(this).data().confirm);
 				}
-				if (ret == true) {
+				if (ret === true) {
 					return true;
 				} else {
 					e.stopImmediatePropagation();
@@ -50,5 +50,28 @@ $(function($, undefined){
 			});
 		}
 	});
+	$('input[data-dateinput-type]').dateinput({
+		datetime: {
+			dateFormat: 'd.m.yy',
+			timeFormat: 'H:mm'
+		},
+		'datetime-local': {
+			dateFormat: 'd.m.yy',
+			timeFormat: 'H:mm'
+		},
+		date: {
+			dateFormat: 'd.m.yy'
+		},
+		month: {
+			dateFormat: 'MM yy'
+		},
+		week: {
+			dateFormat: "w. 'týden' yy"
+		},
+		time: {
+			timeFormat: 'H:mm'
+		},
+	});
+	
 	$.nette.init();
 });
