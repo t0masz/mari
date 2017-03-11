@@ -128,6 +128,12 @@ abstract class BasePresenter extends Nette\Application\UI\Presenter
 		return $visualPaginator;
 	}
 
+	public function handleModal($modalId)
+	{
+		$this->template->modal = $modalId;
+		$this->redrawControl('modal');
+	}
+	
 	public function handleSignOut()
 	{
 		$this->getUser()->logout();

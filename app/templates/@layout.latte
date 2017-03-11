@@ -59,37 +59,46 @@
 			<div class="row">
 				<div class="col-md-8"><p class="text-muted">&copy; {date('Y')} Římskokatolická duchovní správa u kostela sv. Maří Magdaleny</p></div>
 				<div class="col-md-4">
-					<button type="button" class="btn btn-default btn-xs" data-toggle="modal" data-target="#myModal" title="Přihlásit se">
-						<span class="glyphicon glyphicon-log-in" aria-hidden="true"></span>
-					</button>
+					<a n:href="modal! login" class="ajax">Přihlásit se</a>
 				</div>
 			</div>
 		</div>
 	</footer>
 	<!-- Modal -->
-	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-	  <div class="modal-dialog">
-	    <div class="modal-content">
-	      <div class="modal-header">
-	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-	        <h4 class="modal-title" id="myModalLabel">Přihlásit se</h4>
-	      </div>
-	      <div class="modal-body">
-				{form signInForm class => 'form-signin', role => 'form'}
-					<div n:foreach="$form->errors as $error" class="flash alert alert-danger">
-						<button type="button" class="close" data-dismiss="alert">
-							<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
-						</button>
-						<span class="glyphicon glyphicon-ban-circle"></span> {$error}
-					</div>
-					{input username class => "form-control", placeholder => "login", autofocus => TRUE}
-					{input password class => "form-control", placeholder => "password"}
-					{input login class => "btn btn-lg btn-primary btn-block"}
-				{/form}
-	      </div>
-	    </div>
-	  </div>
+	<div class="modal" id="modal">
+		<div class="modal-dialog">
+			<div class="modal-content" n:snippet="modal">
+			{ifset $modal}
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">×</button>
+					<h4 class="modal-title">
+					{ifset #modal-$modal-title}{include #"modal-$modal-title"}{/ifset}
+					</h4>
+				</div>
+				<div class="modal-body">
+				{ifset #modal-$modal-body}{include #"modal-$modal-body"}{/ifset}
+				</div>
+			{/ifset}
+			</div>
+		</div>
 	</div>
+
+{define modal-login-title}
+	Přihlásit se
+{/define}
+{define modal-login-body}
+	{form signInForm class => 'form-signin', role => 'form'}
+		<div n:foreach="$form->errors as $error" class="flash alert alert-danger">
+			<button type="button" class="close" data-dismiss="alert">
+				<span aria-hidden="true">&times;</span><span class="sr-only">Close</span>
+			</button>
+			<span class="glyphicon glyphicon-ban-circle"></span> {$error}
+		</div>
+		{input username class => "form-control", placeholder => "přihlašovací jméno", autofocus => TRUE}
+		{input password class => "form-control", placeholder => "heslo"}
+		{input login class => "btn btn-lg btn-primary btn-block"}
+	{/form}
+{/define}
 	{/if}
 
 	{block scripts}
