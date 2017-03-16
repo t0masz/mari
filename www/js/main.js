@@ -1,7 +1,7 @@
 /**
  * User scripts
  *
- * Version 2015-05-01
+ * Version 2016-03-16
  */
 
 $(document).ready(function(){
@@ -47,8 +47,9 @@ $(function($, undefined){
 			}
 		},
 		success: function (jqXHR, status, settings) {
+			var $snippet = null;
 			if (typeof settings.responseJSON.snippets != 'undefined') {
-				var $snippet = settings.responseJSON.snippets['snippet--modal'];
+				$snippet = settings.responseJSON.snippets['snippet--modal'];
 			}
 			if (!$snippet) {
 				return;

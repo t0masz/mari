@@ -1,7 +1,7 @@
 /**
  * User scripts - for logged users
  *
- * Version 2017-02-18
+ * Version 2017-03-16
  */
 
 $(function($, undefined){
