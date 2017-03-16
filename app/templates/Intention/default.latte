@@ -1,0 +1,37 @@
+{var $title = 'Intence'}
+
+{block content}
+
+<h2>Intence</h2>
+<p>rozpis intencí na <strong>{$date|czechDate:"monthY"}</strong></p>
+<div class="box">
+{control navigation}
+{if $user->isAllowed('Intention','edit')}
+<p><input type="text" class="form-control" id="intention" placeholder="Intence"></p>
+<p>{$text}</p>
+{/if}
+{snippet intention}
+{if $user->isAllowed('Intention','edit')}
+{var $html = "<i class='glyphicon glyphicon-hand-right text-success'></i> "}
+{else}
+{var $html = ""}
+{/if}
+<table id="intention" class="table table-bordered table-condensed table-striped">
+	<tr>
+		<th>datum</th>
+		<th>intence</th>
+	</tr>
+	{if count($items) > 0}
+	{foreach $items as $item}
+	<tr {if $user->isAllowed('Intention','edit')}data-date="{$item[date]}" {/if}n:class="$item[sun] ? info">
+		<td>{if isset($item[date])}{$item[date]|czechDate:"abbr"|firstUpper} {/if}{$item[time]|date:"G.i"}</td>
+		<td {if $user->isAllowed('Intention','edit')}class="ms" data-time="{$item[time]}" data-id="{$item[id]}" data-confirm="Opravdu editovat uloženou hodnotu?"{/if}>{$html|noescape}{$item[intention]}</td>
+	</tr>
+	{/foreach}
+	{/if}
+</table>
+{/snippet}
+</div>
+
+{/block}
+

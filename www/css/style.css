@@ -36,8 +36,15 @@ h4, .h4 {
 .calendar {
 	text-align: center;
 }
-td, th {
+#priest td, #priest th, #acolyte td, #acolyte th {
 	width: 25%;
+}
+#intention th:first-of-type {
+	width: 150px;
+}
+#intention td:first-of-type {
+	width: 150px;
+	text-align: right;
 }
 /* calendar form*/
 .ui-datepicker td, .ui-datepicker th {
