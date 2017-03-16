@@ -3,6 +3,9 @@
 namespace Model;
 
 use Nette,
+	Nette\Security\AuthenticationException,
+	Nette\Security\Identity,
+	Nette\Security\Passwords,
 	Nette\Utils\Strings;
 
 
@@ -15,57 +18,38 @@ class Authenticator extends Nette\Object implements Nette\Security\IAuthenticato
 		TABLE_NAME = 'user',
 		COLUMN_ID = 'id',
 		COLUMN_NAME = 'username',
-		COLUMN_PASSWORD = 'password',
-		COLUMN_ROLE = 'role',
-		PASSWORD_MAX_LENGTH = 4096;
+		COLUMN_PASSWORD_HASH = 'password',
+		COLUMN_EMAIL = 'email',
+		COLUMN_ROLE = 'role';
 
+	/** @var Nette\Database\Context */
+	private $database;
 
-	/** @var UserRepository */
-	private $userRepository;
-
-	public function __construct(UserRepository $repository)
+	public function __construct(Nette\Database\Context $database)
 	{
-		$this->userRepository = $repository;
+		$this->database = $database;
 	}
-
 
 	/**
 	 * Performs an authentication.
-	 * @param array
-	 * @return Nette\Security\Identity
 	 * @throws Nette\Security\AuthenticationException
 	 */
-	public function authenticate(array $credentials)
+	public function authenticate(array $credentials): Nette\Security\IIdentity
 	{
 		list($username, $password) = $credentials;
-		$row = $this->userRepository->findBy(array('username' => $username))->fetch();
-		
+		$row = $this->database->table(self::TABLE_NAME)->where(self::COLUMN_NAME, $username)->fetch();
 		if (!$row) {
-			throw new Nette\Security\AuthenticationException('Chybné uživatelské jméno.', self::IDENTITY_NOT_FOUND);
+			throw new AuthenticationException('The username is incorrect.', self::IDENTITY_NOT_FOUND);
+		} elseif (!Passwords::verify($password, $row[self::COLUMN_PASSWORD_HASH])) {
+			throw new AuthenticationException('The password is incorrect.', self::INVALID_CREDENTIAL);
+		} elseif (Passwords::needsRehash($row[self::COLUMN_PASSWORD_HASH])) {
+			$row->update([
+				self::COLUMN_PASSWORD_HASH => Passwords::hash($password),
+			]);
 		}
-		
-		if ($row[self::COLUMN_PASSWORD] !== $this->calculateHash($password, $row[self::COLUMN_PASSWORD])) {
-			throw new Nette\Security\AuthenticationException('Chybné heslo.', self::INVALID_CREDENTIAL);
-		}
-		
 		$arr = $row->toArray();
-		unset($arr[self::COLUMN_PASSWORD]);
-		return new Nette\Security\Identity($row[self::COLUMN_ID], $row[self::COLUMN_ROLE], $arr);
-	}
-
-
-	/**
-	 * Computes salted password hash.
-	 * @param string
-	 * @return string
-	 */
-	public static function calculateHash($password, $salt = NULL)
-	{
-		if ($password === Strings::upper($password)) { // perhaps caps lock is on
-			$password = Strings::lower($password);
-		}
-		$password = substr($password, 0, self::PASSWORD_MAX_LENGTH);
-		return crypt($password, $salt ?: '$2a$07$' . Strings::random(22));
+		unset($arr[self::COLUMN_PASSWORD_HASH]);
+		return new Identity($row[self::COLUMN_ID], $row[self::COLUMN_ROLE], $arr);
 	}
 
 }

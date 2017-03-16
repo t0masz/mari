@@ -6,6 +6,7 @@ use Nette,
 	Nette\Mail\Message,
 	Nette\Mail\SendmailMailer,
 	Nette\Mail\IMailer,
+	Nette\Security\Passwords,
 	Nette\Utils\Strings,
 	Latte;
 
@@ -92,7 +93,7 @@ class UserManager extends Nette\Object
 		if ($values->password == '')
 			unset($values->password);
 		else
-			$values->password = $this->authenticator->calculateHash($values->password);
+			$values->password = Passwords::hash($values->password);
 		if ($id) {
 			$result = $this->userRepository->findBy(array('id' => (int)$id))->update((array)$values);
 			$return = $result > 0 ? 'updated' : FALSE;
@@ -110,9 +111,8 @@ class UserManager extends Nette\Object
 	public function savePassword($values, $id)
 	{
 		$user = $this->userRepository->findBy(array('id' => (int)$id))->fetch();
-		$oldpassword = $this->authenticator->calculateHash($values->oldPassword,$user->password);
-		$password = $this->authenticator->calculateHash($values->newPassword);
-		if ($oldpassword != $user->password) {
+		$password = Passwords::hash($values->newPassword);
+		if (!Passwords::verify($values->oldPassword, $user->password)) {
 			return 'wrong';
 		} else {
 			$result = $this->userRepository->findBy(array('id' => (int)$id))->update(array('password' => $password));
@@ -135,7 +135,7 @@ class UserManager extends Nette\Object
 		for ($i=0;$i<8;$i++) {
 			$newPassword .= $possibleChars[mt_rand(0,$countChars - 1)];
 		}
-		$password = $this->authenticator->calculateHash($newPassword);
+		$password = Passwords::hash($newPassword);
 		$latte = new Latte\Engine;
 		if (!$user->sent) {
 			$template = __DIR__ . '/../templates/Email/firstPassword.latte';
