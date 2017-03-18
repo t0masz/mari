@@ -63,8 +63,44 @@ class PriestManager extends Nette\Object
 		$services = array();
 		for ($i = 0; $i < $month['days']; $i++) {
 			$services[$date->format('Y-m-d')] = array('date' => $date->format('Y-m-d'), 'names1' => '', 'names2' => '', 'names3' => '', 'id1' => '', 'id2' => '', 'id3' => '');
-			if($date->format('D') == 'Sun') $services[$date->format('Y-m-d')]['sun'] = TRUE;
+			if ($date->format('D') == 'Sun') $services[$date->format('Y-m-d')]['sun'] = TRUE;
 			else $services[$date->format('Y-m-d')]['sun'] = FALSE;
+			if ($date->format('D') == 'Mon') $services[$date->format('Y-m-d')]['mon'] = TRUE;
+			else $services[$date->format('Y-m-d')]['mon'] = FALSE;
+			$date->add(new \DateInterval("P1D"));
+		}
+		$to = $date->sub(new \DateInterval("P1D"));
+		$result = $this->priestRepository->findBySql('date BETWEEN ? AND ?',array($from->format('Y-m-d'),$to->format('Y-m-d')));
+		foreach($result as $item) {
+			if ($item->time->format('%H:%I:%S') == '07:00:00') {
+				$services[$item->date->format('Y-m-d')]['names1'] = $item->names;
+				$services[$item->date->format('Y-m-d')]['id1'] = $item->id;
+			} elseif ($item->time->format('%H:%I:%S') == '08:30:00') {
+				$services[$item->date->format('Y-m-d')]['names2'] = $item->names;
+				$services[$item->date->format('Y-m-d')]['id2'] = $item->id;
+			} elseif ($item->time->format('%H:%I:%S') == '18:00:00') {
+				$services[$item->date->format('Y-m-d')]['names3'] = $item->names;
+				$services[$item->date->format('Y-m-d')]['id3'] = $item->id;
+			}
+		}
+		return $services;
+	}
+
+	/**
+	 * Find by date
+	 * @return Nette\Database\Table\Selection
+	 */
+	public function findByDateWeek($date)
+	{
+		$from = new \DateTime($date);
+		$date = new \DateTime($date);
+		$services = array();
+		for ($i = 0; $i < 7; $i++) {
+			$services[$date->format('Y-m-d')] = array('date' => $date->format('Y-m-d'), 'names1' => '', 'names2' => '', 'names3' => '', 'id1' => '', 'id2' => '', 'id3' => '');
+			if ($date->format('D') == 'Sun') $services[$date->format('Y-m-d')]['sun'] = TRUE;
+			else $services[$date->format('Y-m-d')]['sun'] = FALSE;
+			if ($date->format('D') == 'Mon') $services[$date->format('Y-m-d')]['mon'] = TRUE;
+			else $services[$date->format('Y-m-d')]['mon'] = FALSE;
 			$date->add(new \DateInterval("P1D"));
 		}
 		$to = $date->sub(new \DateInterval("P1D"));

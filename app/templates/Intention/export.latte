@@ -1,0 +1,27 @@
+{var $title = 'Intence'}
+
+{block content}
+
+<h2>Intence</h2>
+<p>rozpis intencí na týden od <strong>{$date|czechDate}</strong></p>
+<div class="box">
+{snippet intention}
+<table id="intention" class="table table-bordered table-condensed">
+	<tr>
+		<th>datum</th>
+		<th>intence</th>
+	</tr>
+	{if count($items) > 0}
+	{foreach $items as $item}
+	<tr n:class="$item[sun] ? info">
+		<td>{if isset($item[date]) && $iterator->counter%3==1}<strong>{$item[date]|czechDate:"abbr"|firstUpper}</strong> {/if}{$item[time]|date:"G.i"}</td>
+		<td>{$item[intention]}</td>
+	</tr>
+	{/foreach}
+	{/if}
+</table>
+{/snippet}
+</div>
+
+{/block}
+

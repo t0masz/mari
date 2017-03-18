@@ -73,4 +73,14 @@ class IntentionPresenter extends BasePresenter
 		}
 	}
 
+	public function renderExport($date = NULL)
+	{
+		$date = new \DateTime($date);
+		$this->template->addFilter('czechDate', 'App\Helpers\Helpers::czechDate');
+		$this->template->date = $date->format('Y-m-d');
+		$this->template->items = $this->intentionManager->findByDateWeek($date->format('Y-m-d'));
+		if($this->isAjax()) {
+			$this->redrawControl();
+		}
+	}
 }

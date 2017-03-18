@@ -24,7 +24,7 @@
 	{if count($items) > 0}
 	{foreach $items as $item}
 	<tr {if $user->isAllowed('Intention','edit')}data-date="{$item[date]}" {/if}n:class="$item[sun] ? info">
-		<td>{if isset($item[date])}{$item[date]|czechDate:"abbr"|firstUpper} {/if}{$item[time]|date:"G.i"}</td>
+		<td><a n:href="Intention:export, date => $item[date]" n:tag-if="$item[mon] && $item[date] && $user->isAllowed('Intention','edit') && $iterator->counter%3==1">{if isset($item[date]) && $iterator->counter%3==1}<strong>{$item[date]|czechDate:"abbr"|firstUpper}</strong> {/if}{$item[time]|date:"G.i"}</a></td>
 		<td {if $user->isAllowed('Intention','edit')}class="ms" data-time="{$item[time]}" data-id="{$item[id]}" data-confirm="Opravdu editovat uloženou hodnotu?"{/if}>{$html|noescape}{$item[intention]}</td>
 	</tr>
 	{/foreach}
