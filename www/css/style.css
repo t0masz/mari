@@ -120,8 +120,7 @@ input.hasDatepicker {
 	background: url("fancybox_overlay.png") repeat scroll 0% 0%;
 	z-index: 999;
 }
-/* footer */
-
+.pagination-centered { text-align:center; }
 html {
 	position: relative;
 	min-height: 100%;
