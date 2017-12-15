@@ -27,9 +27,9 @@
 	{foreach $items as $item}
 	<tr {if $user->isAllowed('Acolyte','edit')}data-date="{$item[date]}" {/if}n:class="$item[sun] ? info">
 		<td>{$item[date]|czechDate:"abbr"|firstUpper}</td>
-		<td {if $user->isAllowed('Priest','edit')}class="ms" data-id="{$item[id1]}" data-time="07:00" data-confirm="Opravdu editovat uloženou hodnotu?"{/if}>{$html|noescape}{$item[names1]}</td>
-		<td {if $user->isAllowed('Priest','edit')}class="ms" data-id="{$item[id2]}" data-time="08:30" data-confirm="Opravdu editovat uloženou hodnotu?"{/if}>{$html|noescape}{$item[names2]}</td>
-		<td {if $user->isAllowed('Priest','edit')}class="ms" data-id="{$item[id3]}" data-time="18:00" data-confirm="Opravdu editovat uloženou hodnotu?"{/if}>{$html|noescape}{$item[names3]}</td>
+		<td {if $user->isAllowed('Acolyte','edit')}class="ms" data-id="{$item[id1]}" data-time="07:00" data-confirm="Opravdu editovat uloženou hodnotu?"{/if}>{$html|noescape}{$item[names1]}</td>
+		<td {if $user->isAllowed('Acolyte','edit')}class="ms" data-id="{$item[id2]}" data-time="08:30" data-confirm="Opravdu editovat uloženou hodnotu?"{/if}>{$html|noescape}{$item[names2]}</td>
+		<td {if $user->isAllowed('Acolyte','edit')}class="ms" data-id="{$item[id3]}" data-time="18:00" data-confirm="Opravdu editovat uloženou hodnotu?"{/if}>{$html|noescape}{$item[names3]}</td>
 	</tr>
 	{/foreach}
 	{/if}
