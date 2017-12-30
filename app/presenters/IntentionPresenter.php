@@ -38,7 +38,7 @@ class IntentionPresenter extends BasePresenter
 								'time' => $time,
 								'intention' => $intention,
 								'amount' => $amount,
-								'code' => $code,
+								'code_id' => $code,
 								'ts' => new \DateTime()
 							];
 							$result = $this->intentionManager->save($values);

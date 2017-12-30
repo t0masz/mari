@@ -213,7 +213,7 @@ class IntentionManager extends Nette\Object
 	 */
 	public function getNameByCode($code)
 	{
-		return $this->codeRepository->findBy(['code' => (int)$code])->fetch();
+		return $this->codeRepository->findBy(['id' => (int)$code])->fetch();
 	}
 
 	/**
