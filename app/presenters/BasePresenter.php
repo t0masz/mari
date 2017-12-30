@@ -62,6 +62,7 @@ abstract class BasePresenter extends Nette\Application\UI\Presenter
 		$logValues = array(
 			'user' => $values->username,
 			'ip' => $this->httpRequest->getRemoteAddress(),
+			'browser' => $this->httpRequest->getHeader('User-Agent'),
 			'message' => '',
 		);
 		try {

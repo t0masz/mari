@@ -9,5 +9,4 @@ use Nette;
  */
 class IntentionRepository extends Repository
 {
-
 }

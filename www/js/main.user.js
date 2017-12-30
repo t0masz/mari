@@ -50,15 +50,24 @@ $(function($, undefined){
 			});
 			$('#intention tr td.ms').click(function(e){
 				e.preventDefault();
-				$.nette.ajax({
-					url:'?do=intention',
-					data: {
-						date:$(this).parent().data('date'),
-						time:$(this).data('time'),
-						id:$(this).data('id'),
-						intention:$('#intention').val()
-					}
-				});
+				if($('#code').val()>0) {
+					$.nette.ajax({
+						url:'?do=intention',
+						data: {
+							date:$(this).parent().data('date'),
+							time:$(this).data('time'),
+							id:$(this).data('id'),
+							intention:$('#intention').val(),
+							amount:$('#amount').val(),
+							code:$('#code').val(),
+						}
+					});
+					$('#intention').val('');
+					$('#amount').val('');
+					$('#code').val('');
+				} else {
+					alert('Není vyplněné heslo!');
+				}
 			});
 		}
 	});

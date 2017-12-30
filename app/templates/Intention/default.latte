@@ -2,20 +2,22 @@
 
 {block content}
 
-<h2>Intence</h2>
-<p>rozpis intencí na <strong>{$date|czechDate:"monthY"}</strong></p>
+<h2>Rozpis intencí na <strong>{$date|czechDate:"monthY"}</strong></h2>
 <div class="box">
 {control navigation}
-{if $user->isAllowed('Intention','edit')}
-<p><input type="text" class="form-control" id="intention" placeholder="Intence"></p>
+{if $user->isAllowed('Intention','add')}
+<p><div class="col-md-8"><input type="text" class="form-control" id="intention" placeholder="Intence"></div><div class="col-md-2"><input type="text" class="form-control" id="amount" placeholder="Částka v Kč"></div><div class="col-md-2"><input type="text" class="form-control col-md-2" id="code" placeholder="Heslo"></div></p>
 <p>{$text}</p>
 {/if}
 {snippet intention}
-{if $user->isAllowed('Intention','edit')}
+{if $user->isAllowed('Intention','add')}
 {var $html = "<i class='glyphicon glyphicon-hand-right text-success'></i> "}
 {else}
 {var $html = ""}
 {/if}
+<a n:href="Intention:statement, date => $date" n:tag-if="$user->isAllowed('Intention','statement')">měsíční výkaz</a> &bull;
+<a n:href="Intention:code" n:tag-if="$user->isAllowed('Intention','code')">uživatelé</a> &bull;
+<a n:href="Intention:protocol" n:tag-if="$user->isAllowed('Intention','protocol')">protokol</a>
 <table id="intention" class="table table-bordered table-condensed table-striped">
 	<tr>
 		<th>datum</th>
@@ -23,9 +25,9 @@
 	</tr>
 	{if count($items) > 0}
 	{foreach $items as $item}
-	<tr {if $user->isAllowed('Intention','edit')}data-date="{$item[date]}" {/if}n:class="$item[sun] ? info">
-		<td><a n:href="Intention:export, date => $item[date]" n:tag-if="$item[mon] && $item[date] && $user->isAllowed('Intention','edit') && $iterator->counter%3==1">{if isset($item[date]) && $iterator->counter%3==1}<strong>{$item[date]|czechDate:"abbr"|firstUpper}</strong> {/if}{$item[time]|date:"G.i"}</a></td>
-		<td {if $user->isAllowed('Intention','edit')}class="ms" data-time="{$item[time]}" data-id="{$item[id]}" data-confirm="Opravdu editovat uloženou hodnotu?"{/if}>{$html|noescape}{$item[intention]}</td>
+	<tr {if $user->isAllowed('Intention','add')}data-date="{$item[date]}" {/if}n:class="$item[sun] ? info">
+		<td><a n:href="Intention:export, date => $item[date]" n:tag-if="$item[mon] && $item[date] && $user->isAllowed('Intention','export') && $iterator->counter%3==1">{if isset($item[date]) && $iterator->counter%3==1}<strong>{$item[date]|czechDate:"abbr"|firstUpper}</strong> {/if}{$item[time]|date:"G.i"}</a></td>
+		<td {if $user->isAllowed('Intention','add') && !$item[intention]}class="ms" data-time="{$item[time]}" data-id="{$item[id]}" data-confirm="Opravdu editovat uloženou hodnotu?"{/if}>{$html|noescape}{$item[intention]}</td>
 	</tr>
 	{/foreach}
 	{/if}

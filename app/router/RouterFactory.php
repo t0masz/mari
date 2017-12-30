@@ -22,8 +22,11 @@ class RouterFactory
 		$router = new RouteList();
 		$router[] = new Route('/[<id historie|kostel|>/]', 'Homepage:default');
 		$router[] = new Route('/ministranti/[<navigation-date>]', 'Acolyte:default');
-		$router[] = new Route('/intence/[<navigation-date>]', 'Intention:default');
 		$router[] = new Route('/intence/tisk/[<date>]', 'Intention:export');
+		$router[] = new Route('/intence/vykaz/[<date>]', 'Intention:statement');
+		$router[] = new Route('/intence/editace/<date>/<id>', 'Intention:edit');
+		$router[] = new Route('/intence/protokol/', 'Intention:protocol');
+		$router[] = new Route('/intence/[<navigation-date>]', 'Intention:default');
 		$router[] = new Route('/celebranti/[<navigation-date>]', 'Priest:default');
 		$router[] = new Route('/celebranti/tisk/[<date>]', 'Priest:export');
 		$router[] = new Route('<presenter>[/<action>][/<id>]', 'Homepage:default');

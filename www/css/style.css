@@ -23,7 +23,8 @@ h4, .h4 {
 	height: 250px;
 	background: url('../images/MMagdalena DSCF2408sm.jpg') no-repeat center center / cover transparent;
 	background-size: auto;
-	border-radius:10px 10px 0 0;
+	background-color: #f8f8f8;
+	border-radius: 10px 10px 0 0;
 	margin: 20px 0 0 0;
 }
 .page-header h1 {
@@ -134,6 +135,7 @@ html {
 body {
 	/* Margin bottom by footer height */
 	margin-bottom: 60px;
+/*	background: url('../images/MMagdalena DSCF2408sm.jpg') no-repeat center center / cover transparent;*/
 }
 .footer {
 	position: absolute;

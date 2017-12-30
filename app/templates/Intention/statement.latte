@@ -1,0 +1,46 @@
+{var $title = 'Intence'}
+
+{block content}
+
+<h2>Výkaz intencí na <strong>{$date|czechDate:"monthY"}</strong></h2>
+<div class="box">
+{snippet intention}
+<table id="intention" class="table table-bordered table-condensed">
+	<tr>
+		<th>datum</th>
+		<th>intence</th>
+		<th>celebrant</th>
+		<th>částka</th>
+	</tr>
+	{if count($items) > 0}
+	{foreach $items as $item}
+	<tr n:class="$item[sun] ? info">
+		<td>{if isset($item[date]) && $iterator->counter%3==1}<strong>{$item[date]|czechDate:"abbr"|firstUpper}</strong> {/if}{$item[time]|date:"G.i"}</td>
+		<td><a n:href="Intention:edit, date => $date, id=> $item[id]" n:tag-if="$user->isAllowed('Intention','statement') && $item[id]">{$item[intention]}</a></td>
+		<td>{$item[name]}</td>
+		<td>{$item[amount]|currency}</td>
+	</tr>
+	{/foreach}
+	{/if}
+</table>
+<table id="intention" class="table table-bordered table-condensed">
+	<tr>
+		<th>jméno</th>
+		<th>počet</th>
+		<th>částka</th>
+	</tr>
+	{if count($summary) > 0}
+	{foreach $summary as $item}
+	<tr>
+		<td>{$item[name]}</td>
+		<td>{$item[count]}</td>
+		<td>{$item[amount]|currency}</td>
+	</tr>
+	{/foreach}
+	{/if}
+</table>
+{/snippet}
+</div>
+
+{/block}
+

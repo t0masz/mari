@@ -1,0 +1,24 @@
+{var $title = 'Intence'}
+
+{block content}
+
+<h2>Uživatelé s právem zápisu intencí</h2>
+<div class="box">
+<table id="intention" class="table table-bordered table-condensed">
+	<tr>
+		<th>jméno</th>
+		<th>heslo</th>
+	</tr>
+	{if count($items) > 0}
+	{foreach $items as $item}
+	<tr>
+		<td>{$item->name}</td>
+		<td>{$item->id}</td>
+	</tr>
+	{/foreach}
+	{/if}
+</table>
+</div>
+
+{/block}
+

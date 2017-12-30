@@ -1,0 +1,31 @@
+{var $title = 'Intence'}
+
+{block content}
+
+<h2>Protokol intencí</h2>
+<div class="box">
+<table id="intention" class="table table-bordered table-condensed">
+	<tr>
+		<th>datum</th>
+		<th>intence</th>
+		<th>částka</th>
+		<th>vloženo</th>
+		<th>kdo vložil</th>
+	</tr>
+	{if count($items) > 0}
+	{foreach $items as $item}
+	<tr n:class="isset($item[sun]) ? info">
+		<td>{$item->date|czechDate:"abbrY"|firstUpper} {$item->time|date:"%h.%I"}</td>
+		<td>{$item->intention}</td>
+		<td>{$item->amount|currency}</td>
+		<td>{$item->ts|date:"j.n.Y H:i:s"}</td>
+		<td>{$item->ref('code','code_id')->name}</td>
+	</tr>
+	{/foreach}
+	{/if}
+</table>
+{control vp}
+</div>
+
+{/block}
+
