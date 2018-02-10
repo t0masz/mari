@@ -287,9 +287,9 @@ class IntentionManager extends Nette\Object
 	 * Disable code
 	 * @return bool
 	 */
-	public function saveCode($id)
+	public function disableCode($id)
 	{
-		$row = $this->codeRepository->findBy(['id' => (int)$values['id']])->fetch();
+		$row = $this->codeRepository->findBy(['id' => (int)$id])->fetch();
 		if ($row) {
 			try {
 				$result = $this->codeRepository->findBy(['id' => (int)$id])->update(['disabled' => 1]);
