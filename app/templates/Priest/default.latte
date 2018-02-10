@@ -2,8 +2,7 @@
 
 {block content}
 
-<h2>Celebranti</h2>
-<p>rozpis služeb na <strong>{$date|czechDate:"monthY"}</strong></p>
+<h2>Rozpis celebrantů na <strong>{$date|czechDate:"monthY"}</strong></h2>
 <div class="box">
 {control navigation}
 {if $user->isAllowed('Priest','edit')}

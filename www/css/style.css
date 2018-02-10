@@ -3,7 +3,7 @@
 	.page-header {
 		display: none;
 	}
-	#intention td {
+	#intention td, #priest td {
 		font-size: 160%;
 	}
 	footer {
@@ -135,7 +135,6 @@ html {
 body {
 	/* Margin bottom by footer height */
 	margin-bottom: 60px;
-/*	background: url('../images/MMagdalena DSCF2408sm.jpg') no-repeat center center / cover transparent;*/
 }
 .footer {
 	position: absolute;
