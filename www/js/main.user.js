@@ -1,23 +1,24 @@
 /**
  * User scripts - for logged users
  *
- * Version 2017-03-16
+ * Version 2018-02-10
  */
 
 $(function($, undefined){
 	$.nette.ext('confirm', {
 		load: function () {
 			$('[data-confirm]').click(function(e){
-				e.preventDefault();
-				var ret = true;
-				if ($(this).data().id > 0) {
-					ret = confirm($(this).data().confirm);
-				}
-				if (ret === true) {
-					return true;
-				} else {
-					e.stopImmediatePropagation();
-					return false;					
+				if($(this).data('id')>0) {
+					e.preventDefault();
+					var question = $(this).data('confirm');
+					if (question) {
+						if (!confirm(question)) {
+							e.stopImmediatePropagation();
+							return false;
+						} else {
+							return true;
+						}
+					}
 				}
 			});
 		}

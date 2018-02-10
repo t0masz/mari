@@ -4,7 +4,8 @@ namespace Model;
 
 use Nette,
 	Nette\Mail\Message,
-	Nette\Utils\Strings;
+	Nette\Utils\Strings,
+	Nette\Utils\Random;
 
 
 /**
@@ -198,13 +199,16 @@ class IntentionManager extends Nette\Object
 		if (isset($values['id']) && ($values['id'] > 0)) {
 			$id = $values['id'];
 			unset($values['id']);
-			$result = $this->intentionRepository->findBy(['id' => (int)$id])->update($values);
-			$return = $result > 0 ? 'updated' : FALSE;
+			try {
+				$result = $this->intentionRepository->findBy(['id' => (int)$id])->update($values);
+				return $result==1 ? 'updated' : TRUE;
+			} catch (Exception $e) {
+				return FALSE;
+			}
 		} else {
 			$result = $this->intentionRepository->insert($values);
-			$return = $result ? 'inserted' : FALSE;
+			return $result ? 'inserted' : FALSE;
 		}
-		return $return;
 	}
 
 	/**
@@ -213,7 +217,7 @@ class IntentionManager extends Nette\Object
 	 */
 	public function getNameByCode($code)
 	{
-		return $this->codeRepository->findBy(['id' => (int)$code])->fetch();
+		return $this->codeRepository->findBy(['id' => (int)$code, 'disabled' => 0])->fetch();
 	}
 
 	/**
@@ -251,6 +255,34 @@ class IntentionManager extends Nette\Object
 	 */
 	public function findAllCode()
 	{
-		return $this->codeRepository->findAll();
+		return $this->codeRepository->findAll()->order('disabled, id');
+	}
+
+	/**
+	 * Find and get item by ID
+	 * @return Nette\Database\Table\IRow
+	 */
+	public function getCodeByID($id)
+	{
+		return $this->codeRepository->findBy(['id' => (int)$id])->fetch();
+	}
+
+	/**
+	 * Save values
+	 * @return string (inserted/updated) or FALSE on error
+	 */
+	public function saveCode($values)
+	{
+		$row = $this->codeRepository->findBy(['id' => (int)$values['id']])->fetch();
+		if ($row) {
+#			$id = $values['id'];
+#			unset($values['id']);
+#			$result = $this->codeRepository->findBy(['id' => (int)$id])->update($values);
+			$return = 'duplicate';
+		} else {
+			$result = $this->codeRepository->insert((array)$values);
+			$return = $result ? 'inserted' : FALSE;
+		}
+		return $return;
 	}
 }

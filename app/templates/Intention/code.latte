@@ -2,22 +2,26 @@
 
 {block content}
 
-<h2>Uživatelé s právem zápisu intencí</h2>
+<h2>Kódy pro zápis intencí</h2>
 <div class="box">
+<p><a href="{link addCode}"><span class="glyphicon glyphicon-plus-sign"></span> Přidej nový přístupový kód</a></p>
 <table id="intention" class="table table-bordered table-condensed">
 	<tr>
 		<th>jméno</th>
-		<th>heslo</th>
+		<th>přístupový kód</th>
+		<th>akce</th>
 	</tr>
 	{if count($items) > 0}
 	{foreach $items as $item}
 	<tr>
 		<td>{$item->name}</td>
 		<td>{$item->id}</td>
+		<td><a href="{link disableCode!, $item->id}" n:tag-if="!$item->disabled">Zablokovat</a></td>
 	</tr>
 	{/foreach}
 	{/if}
 </table>
+<p><em>Poznámka:</em> Nelze upravovat vložený přístupový kód, při jeho změně je třeba založit nový přístupový kód. Starý kód je poté potřeba zablokovat.</p>
 </div>
 
 {/block}

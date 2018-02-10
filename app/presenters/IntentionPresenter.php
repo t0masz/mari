@@ -48,7 +48,7 @@ class IntentionPresenter extends BasePresenter
 						$this->flashMessage('Nemáš zadanou intenci!', 'danger');
 					}
 				} else {
-					$this->flashMessage('Chybně vložené heslo!', 'danger');
+					$this->flashMessage('Chybně vložený kontrolní kód!', 'danger');
 				}
 			} else {
 				$this->flashMessage('Nebylo zadáno heslo!', 'danger');
@@ -68,11 +68,6 @@ class IntentionPresenter extends BasePresenter
 			$date = $date->sub(new \DateInterval("P{$days}D"));
 			$this->template->addFilter('czechDate', 'App\Helpers\Helpers::czechDate');
 			$this->template->items = $this->intentionManager->findByDate($date->format('Y-m-d'));
-			if($this->getUser()->isLoggedIn() && $this->getUser()->isAllowed('Intention','add')) {
-				$this->template->text = "editace pouze pro přihlášené s právy";
-			} else {
-				$this->template->text = "viditelné pro ostatní, neindexovat vyhledávači";
-			}
 			if($this->isAjax()) {
 				$this->redrawControl();
 			}
@@ -146,12 +141,11 @@ class IntentionPresenter extends BasePresenter
 		$date = new \DateTime($values['date']);
 		$result = $this->intentionManager->save($values);
 		$values['date'] = null;
-
-		if ($result == 'inserted') {
+		if ($result === 'inserted') {
 			$this->flashMessage('Nová intence byla vložena', 'success');
-		} elseif($result == 'updated') {
+		} elseif($result === 'updated') {
 			$this->flashMessage('Intence byla upravena.', 'success');
-		} else {
+		} elseif($result === FALSE) {
 			$this->flashMessage('Došlo k chybě při ukládání.', 'danger');
 		}
 		$this->redirect('Intention:Statement',$date->format('Y-m-d'));
@@ -166,7 +160,70 @@ class IntentionPresenter extends BasePresenter
 				$this->redrawControl();
 			}
 		} else {
-			$this->flashMessage('Nemáš práva pro nahlížení do výkazu intencí.', 'danger');
+			$this->flashMessage('Nemáš práva pro nahlížení a editaci kontrolních kódů.', 'danger');
+			$this->redirect('Intention:');
+		}
+	}
+
+	public function renderAddCode()
+	{
+		if(!$this->getUser()->isLoggedIn() && !$this->getUser()->isAllowed('Intention','code')) {
+			$this->flashMessage('Nemáš práva pro editaci kontrolních kódů.', 'danger');
+			$this->redirect('Intention:');
+		}
+	}
+
+	public function renderEditCode()
+	{
+		if($this->getUser()->isLoggedIn() && $this->getUser()->isAllowed('Intention','code')) {
+			$row = $this->intentionManager->getCodeById($id);
+			if (!$row) {
+				$date = new \DateTime($date);
+				$this->flashMessage('Přístupový kód nenalezen.', 'danger');
+				$this->redirect('Intention:Code');
+			}
+			$this['codeForm']->setDefaults($row);
+		} else {
+			$this->flashMessage('Nemáš práva pro editaci kontrolních kódů.', 'danger');
+			$this->redirect('Intention:');
+		}
+	}
+
+	protected function createComponentCodeForm($name)
+	{
+		$form = new Forms\CodeForm($this, $name);
+		$form->onSuccess[] = [$this, 'codeFormSubmitted'];
+		return $form;
+	}
+
+	public function codeFormSubmitted(Forms\CodeForm $form)
+	{
+		$values = $form->getValues();
+		$result = $this->intentionManager->saveCode($values);
+
+		if ($result == 'inserted') {
+			$this->flashMessage('Nový kód byl vložen', 'success');
+		} elseif($result == 'updated') {
+			$this->flashMessage('Kód byl upraven.', 'success');
+		} elseif($result == 'duplicate') {
+			$this->flashMessage('Kód již existuje, zvol jiný kód.', 'danger');
+		} else {
+			$this->flashMessage('Došlo k chybě při ukládání.', 'danger');
+		}
+		$this->redirect('Intention:Code');
+	}
+	
+	public function handleDisableCode($id) {
+		if($this->getUser()->isLoggedIn() && $this->getUser()->isAllowed('Intention','code')) {
+			$row = $this->intentionManager->getCodeById($id);
+			if ($row) {
+				$values = ['id' => $id, 'disabled' => 1];
+				$this->intentionManager->saveCode($values);
+				$this->flashMessage('Přístupový kód zablokován.', 'danger');
+				$this->redirect('Intention:Code');
+			}
+		} else {
+			$this->flashMessage('Nemáš práva pro editaci přístupových kódů.', 'danger');
 			$this->redirect('Intention:');
 		}
 	}

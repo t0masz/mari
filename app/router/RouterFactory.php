@@ -26,7 +26,8 @@ class RouterFactory
 		$router[] = new Route('/intence/vykaz/[<date>]', 'Intention:statement');
 		$router[] = new Route('/intence/editace/<date>/<id>', 'Intention:edit');
 		$router[] = new Route('/intence/protokol/', 'Intention:protocol');
-		$router[] = new Route('/intence/uzivatele/', 'Intention:code');
+		$router[] = new Route('/intence/kody/', 'Intention:code');
+		$router[] = new Route('/intence/kody/novy', 'Intention:addCode');
 		$router[] = new Route('/intence/[<navigation-date>]', 'Intention:default');
 		$router[] = new Route('/celebranti/[<navigation-date>]', 'Priest:default');
 		$router[] = new Route('/celebranti/tisk/[<date>]', 'Priest:export');
