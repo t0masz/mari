@@ -275,14 +275,30 @@ class IntentionManager extends Nette\Object
 	{
 		$row = $this->codeRepository->findBy(['id' => (int)$values['id']])->fetch();
 		if ($row) {
-#			$id = $values['id'];
-#			unset($values['id']);
-#			$result = $this->codeRepository->findBy(['id' => (int)$id])->update($values);
 			$return = 'duplicate';
 		} else {
 			$result = $this->codeRepository->insert((array)$values);
 			$return = $result ? 'inserted' : FALSE;
 		}
 		return $return;
+	}
+
+	/**
+	 * Disable code
+	 * @return bool
+	 */
+	public function saveCode($id)
+	{
+		$row = $this->codeRepository->findBy(['id' => (int)$values['id']])->fetch();
+		if ($row) {
+			try {
+				$result = $this->codeRepository->findBy(['id' => (int)$id])->update(['disabled' => 1]);
+				return TRUE;
+			} catch (Exception $e) {
+				return FALSE;
+			}
+		} else {
+			return FALSE;
+		}
 	}
 }

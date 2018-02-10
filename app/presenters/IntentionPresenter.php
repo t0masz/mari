@@ -217,9 +217,12 @@ class IntentionPresenter extends BasePresenter
 		if($this->getUser()->isLoggedIn() && $this->getUser()->isAllowed('Intention','code')) {
 			$row = $this->intentionManager->getCodeById($id);
 			if ($row) {
-				$values = ['id' => $id, 'disabled' => 1];
-				$this->intentionManager->saveCode($values);
-				$this->flashMessage('Přístupový kód zablokován.', 'danger');
+				$result = $this->intentionManager->disableCode($id);
+				if ($result) {
+					$this->flashMessage('Přístupový kód zablokován.', 'success');
+				} else {
+					$this->flashMessage('Došlo k chybě při blokování bezpečnostního kódu.', 'danger');
+				}
 				$this->redirect('Intention:Code');
 			}
 		} else {
