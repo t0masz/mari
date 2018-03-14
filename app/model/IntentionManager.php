@@ -200,8 +200,13 @@ class IntentionManager extends Nette\Object
 			$id = $values['id'];
 			unset($values['id']);
 			try {
-				$result = $this->intentionRepository->findBy(['id' => (int)$id])->update($values);
-				return $result==1 ? 'updated' : TRUE;
+				if ($values['intention']!='' || $values['amount']>0) {
+					$result = $this->intentionRepository->findBy(['id' => (int)$id])->update($values);
+					return $result==1 ? 'updated' : TRUE;
+				} else {
+					$result = $this->intentionRepository->findBy(['id' => (int)$id])->delete();
+					return $result==1 ? 'deleted' : TRUE;
+				}
 			} catch (Exception $e) {
 				return FALSE;
 			}

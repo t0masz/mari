@@ -145,6 +145,8 @@ class IntentionPresenter extends BasePresenter
 			$this->flashMessage('Nová intence byla vložena', 'success');
 		} elseif($result === 'updated') {
 			$this->flashMessage('Intence byla upravena.', 'success');
+		} elseif($result === 'deleted') {
+			$this->flashMessage('Intence byla smazána.', 'success');
 		} elseif($result === FALSE) {
 			$this->flashMessage('Došlo k chybě při ukládání.', 'danger');
 		}
