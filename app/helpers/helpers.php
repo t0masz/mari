@@ -41,4 +41,25 @@ class Helpers
 		}
 		
 	}
+
+	public static function type($type)
+	{
+		switch($type) {
+			case 'instert':
+				$return = 'vloženo';
+				break;
+			case 'update':
+				$return = 'upraveno';
+				break;
+			case 'delete':
+				$return = 'smazáno';
+				break;
+			default:
+				$return = 'vloženo';
+				break;
+		}
+		return $return;
+	}
+
+	
 }

@@ -4,8 +4,7 @@ namespace App;
 
 use Nette,
 	Nette\Application\Routers\RouteList,
-	Nette\Application\Routers\Route,
-	Nette\Application\Routers\SimpleRouter;
+	Nette\Application\Routers\Route;
 
 
 /**
@@ -25,7 +24,8 @@ class RouterFactory
 		$router[] = new Route('/intence/tisk/[<date>]', 'Intention:export');
 		$router[] = new Route('/intence/vykaz/[<date>]', 'Intention:statement');
 		$router[] = new Route('/intence/editace/<date>/<id>', 'Intention:edit');
-		$router[] = new Route('/intence/protokol/', 'Intention:protocol');
+		$router[] = new Route('/intence/smazat/<date>/<id>', 'Intention:delete');
+		$router[] = new Route('/intence/protokol/[<navigation-date>]', 'Intention:protocol');
 		$router[] = new Route('/intence/kody/', 'Intention:code');
 		$router[] = new Route('/intence/kody/novy', 'Intention:addCode');
 		$router[] = new Route('/intence/[<navigation-date>]', 'Intention:default');

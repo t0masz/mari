@@ -4,12 +4,11 @@ namespace App\Presenters;
 
 use Model,
 	Nette,
-	Nette\Application\UI\Form,
-	Nette\DateTime,
+	Nette\Utils\DateTime,
 	Nette\Utils\Json,
 	App\Components,
 	App\Forms,
-	Nette\Forms\Controls;
+	VisualPaginator;
 
 
 /**
@@ -56,7 +55,7 @@ abstract class BasePresenter extends Nette\Application\UI\Presenter
 		$values = $form->getValues();
 
 		$log = array(
-			'ts' => new \DateTime,
+			'ts' => new DateTime,
 			'values' => '',
 		);
 		$logValues = array(
@@ -124,7 +123,7 @@ abstract class BasePresenter extends Nette\Application\UI\Presenter
      */
 	public function createComponentVp($name)
 	{
-		$visualPaginator = new \VisualPaginator($this, $name);
+		$visualPaginator = new VisualPaginator($this, $name);
 		$visualPaginator->getPaginator()->itemsPerPage = $this->config->paging;
 		return $visualPaginator;
 	}

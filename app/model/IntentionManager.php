@@ -3,9 +3,8 @@
 namespace Model;
 
 use Nette,
-	Nette\Mail\Message,
-	Nette\Utils\Strings,
-	Nette\Utils\Random;
+	Nette\Utils\DateTime,
+	Nette\Utils\Strings;
 
 
 /**
@@ -75,8 +74,8 @@ class IntentionManager extends Nette\Object
 	 */
 	public function findByDate($date)
 	{
-		$from = new \DateTime($date);
-		$date = new \DateTime($date);
+		$from = new DateTime($date);
+		$date = new DateTime($date);
 		$month['days'] = $date->format('t');
 		$month['month'] = $date->format('n');
 		$services = [];
@@ -103,8 +102,8 @@ class IntentionManager extends Nette\Object
 	 */
 	public function findByDateWeek($date)
 	{
-		$from = new \DateTime($date);
-		$date = new \DateTime($date);
+		$from = new DateTime($date);
+		$date = new DateTime($date);
 		$services = [];
 		for ($i = 0; $i < 7; $i++) {
 			$sun = $date->format('D') == 'Sun' ? TRUE : FALSE;
@@ -129,7 +128,7 @@ class IntentionManager extends Nette\Object
 	 */
 	public function findByDateMonth($date)
 	{
-		$from = is_object($date) ? $date : new \DateTime($date);
+		$from = is_object($date) ? $date : new DateTime($date);
 		$from->modify('first day of this month');
 		$date = clone $from;
 		$services = [];
@@ -161,7 +160,7 @@ class IntentionManager extends Nette\Object
 	 */
 	public function getSummary($services,$date)
 	{
-		$from = is_object($date) ? $date : new \DateTime($date);
+		$from = is_object($date) ? $date : new DateTime($date);
 		$from->modify('first day of this month');
 		$to = clone $from;
 		$to->modify('last day of this month');
@@ -173,7 +172,7 @@ class IntentionManager extends Nette\Object
 			$summary[Strings::webalize($item->names)]['amount'] = 0;
 		}
 		foreach($services as $item) {
-			if($item['name']!='') {
+			if($item['name']!='' && $item['amount']>0) {
 				$summary[Strings::webalize($item['name'])]['count']++;
 				$summary[Strings::webalize($item['name'])]['amount']+=$item['amount'];
 			}
@@ -196,15 +195,35 @@ class IntentionManager extends Nette\Object
 	 */
 	public function save($values)
 	{
+		$code = $values['code'];
+		unset($values['code']);
+		if(isset($code) && $code > 0) {
+			$priest = $this->getNameByCode($code);
+			if(!isset($priest->name)) {
+				return 'falsecode';
+			}
+		} else {
+			return 'nocode';
+		}
 		if (isset($values['id']) && ($values['id'] > 0)) {
 			$id = $values['id'];
 			unset($values['id']);
 			try {
 				if ($values['intention']!='' || $values['amount']>0) {
 					$result = $this->intentionRepository->findBy(['id' => (int)$id])->update($values);
+					$logValues = $values;
+					$logValues['type'] = 'update';
+					$logValues['code_id'] = $code;
+					$logValues['ts'] = new DateTime();
+					$this->intentionLogRepository->insert((array)$logValues);
 					return $result==1 ? 'updated' : TRUE;
 				} else {
 					$result = $this->intentionRepository->findBy(['id' => (int)$id])->delete();
+					$logValues = $values;
+					$logValues['type'] = 'delete';
+					$logValues['code_id'] = $code;
+					$logValues['ts'] = new DateTime();
+					$this->intentionLogRepository->insert((array)$logValues);
 					return $result==1 ? 'deleted' : TRUE;
 				}
 			} catch (Exception $e) {
@@ -246,12 +265,30 @@ class IntentionManager extends Nette\Object
 	}
 
 	/**
-	 * Get count of all users
+	 * Find all items
+	 * @return Nette\Database\Table\Selection
+	 */
+	public function findLogBy($by,$itemsPerPage,$offset)
+	{
+		return $this->intentionLogRepository->findBy($by)->limit($itemsPerPage,$offset)->order('date, time, ts');
+	}
+
+	/**
+	 * Get count of all intentions logs
 	 * @return number of rows
 	 */
 	public function getCountAllLog()
 	{
 		return $this->intentionLogRepository->countAll();
+	}
+
+	/**
+	 * Get count of intentions logs by
+	 * @return number of rows
+	 */
+	public function getCountLogBy($by)
+	{
+		return $this->intentionLogRepository->findBy($by)->count();
 	}
 
 	/**

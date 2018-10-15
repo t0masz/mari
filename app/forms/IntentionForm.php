@@ -3,9 +3,7 @@
 namespace App\Forms;
 
 use Nette\Application\UI\Form,
-	Nextras\Forms\Rendering\Bs3FormRenderer,
-	Nette\Utils\Html,
-	Nette\ComponentModel\IContainer;
+	Nextras\Forms\Rendering\Bs3FormRenderer;
 
 class IntentionForm extends Form {
 	
@@ -20,9 +18,12 @@ class IntentionForm extends Form {
 	{
 		$this->addHidden('id');
 		$this->addHidden('date');
+		$this->addHidden('time');
 		$this->addText('intention', 'Intence');
 		$this->addText('amount', 'Částka')
 			->setHtmlType('number');
+		$this->addText('code', 'Kód')
+			->setAttribute('autocomplete', 'off');
 		$this->addSubmit('save',  'uložit');
 		$this->setRenderer(new Bs3FormRenderer());
 	}

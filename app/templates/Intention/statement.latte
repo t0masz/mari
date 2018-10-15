@@ -16,7 +16,7 @@
 	{foreach $items as $item}
 	<tr n:class="$item[sun] ? info">
 		<td>{if isset($item[date]) && $iterator->counter%3==1}<strong>{$item[date]|czechDate:"abbr"|firstUpper}</strong> {/if}{$item[time]|date:"G.i"}</td>
-		<td><a n:href="Intention:edit, date => $date, id=> $item[id]" n:tag-if="$user->isAllowed('Intention','statement') && $item[id]">{$item[intention]}</a></td>
+		<td>{if $user->isAllowed('Intention','statement') && $item[id]}<a n:href="Intention:delete, date => $date, id=> $item[id]" class="noprint"><span class="glyphicon glyphicon-trash text-danger"></span></a> {/if}<a n:href="Intention:edit, date => $date, id=> $item[id]" n:tag-if="$user->isAllowed('Intention','statement') && $item[id]">{$item[intention]}</a></td>
 		<td>{$item[name]}</td>
 		<td>{$item[amount]|currency}</td>
 	</tr>

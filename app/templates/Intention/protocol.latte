@@ -4,12 +4,15 @@
 
 <h2>Protokol intencí</h2>
 <div class="box">
+{control navigation}
+
 <table id="intention" class="table table-bordered table-condensed">
 	<tr>
-		<th>datum</th>
+		<th>datum mše</th>
 		<th>intence</th>
 		<th>částka</th>
-		<th>vloženo</th>
+		<th>datum</th>
+		<th>typ</th>
 		<th>kdo vložil</th>
 	</tr>
 	{if count($items) > 0}
@@ -19,6 +22,7 @@
 		<td>{$item->intention}</td>
 		<td>{$item->amount|currency}</td>
 		<td>{$item->ts|date:"j.n.Y H:i:s"}</td>
+		<td>{$item->type|type}</td>
 		<td>{$item->ref('code','code_id')->name}</td>
 	</tr>
 	{/foreach}

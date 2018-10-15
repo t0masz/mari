@@ -16,7 +16,7 @@
 	<tr>
 		<td>{$item->name}</td>
 		<td>{$item->id}</td>
-		<td><a href="{link disableCode!, $item->id}" n:tag-if="!$item->disabled">Zablokovat</a></td>
+		<td><a href="{link disableCode!, $item->id}" n:tag-if="$item->disabled==0">Zablokovat</a></td>
 	</tr>
 	{/foreach}
 	{/if}

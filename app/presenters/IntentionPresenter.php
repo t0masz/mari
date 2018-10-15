@@ -2,8 +2,7 @@
 
 namespace App\Presenters;
 
-use Nette,
-	Nette\Forms\Controls\SubmitButton,
+use Nette\Utils\DateTime,
 	Model,
 	App\Forms;
 
@@ -32,6 +31,7 @@ class IntentionPresenter extends BasePresenter
 								'time' => $time,
 								'intention' => $intention,
 								'amount' => $amount,
+								'code' => $code
 							];
 							$valuesLog = [
 								'date' => $date,
@@ -39,10 +39,11 @@ class IntentionPresenter extends BasePresenter
 								'intention' => $intention,
 								'amount' => $amount,
 								'code_id' => $code,
-								'ts' => new \DateTime()
+								'type' => 'insert',
+								'ts' => new DateTime()
 							];
-							$result = $this->intentionManager->save($values);
-							$result = $this->intentionManager->insertLog($valuesLog);
+							$this->intentionManager->save($values);
+							$this->intentionManager->insertLog($valuesLog);
 						}
 					} else {
 						$this->flashMessage('Nemáš zadanou intenci!', 'danger');
@@ -62,7 +63,7 @@ class IntentionPresenter extends BasePresenter
 	{
 		if($this->getUser()->isLoggedIn() && $this->getUser()->isAllowed('Intention','default')) {
 			$navigation = $this['navigation'];
-			$date = new \DateTime($navigation->date);
+			$date = new DateTime($navigation->date);
 			$this->template->date = $date->format('Y-m-d');
 			$days = $date->format('j')-1;
 			$date = $date->sub(new \DateInterval("P{$days}D"));
@@ -80,7 +81,7 @@ class IntentionPresenter extends BasePresenter
 	public function renderExport($date = NULL)
 	{
 		if($this->getUser()->isLoggedIn() && $this->getUser()->isAllowed('Intention','export')) {
-			$date = new \DateTime($date);
+			$date = new DateTime($date);
 			$this->template->addFilter('czechDate', 'App\Helpers\Helpers::czechDate');
 			$this->template->date = $date->format('Y-m-d');
 			$this->template->items = $this->intentionManager->findByDateWeek($date->format('Y-m-d'));
@@ -96,7 +97,7 @@ class IntentionPresenter extends BasePresenter
 	public function renderStatement($date = NULL)
 	{
 		if($this->getUser()->isLoggedIn() && $this->getUser()->isAllowed('Intention','statement')) {
-			$date = new \DateTime($date);
+			$date = new DateTime($date);
 			$this->template->addFilter('czechDate', 'App\Helpers\Helpers::czechDate');
 			$this->template->addFilter('currency', 'App\Helpers\Helpers::currency');
 			$this->template->date = $date->format('Y-m-d');
@@ -117,11 +118,41 @@ class IntentionPresenter extends BasePresenter
 		if($this->getUser()->isLoggedIn() && $this->getUser()->isAllowed('Intention','edit')) {
 			$row = $this->intentionManager->getById($id);
 			if (!$row) {
-				$date = new \DateTime($date);
+				$date = new DateTime($date);
 				$this->flashMessage('Intence nenalezena.', 'danger');
 				$this->redirect('Intention:Statement',$date->format('Y-m-d'));
 			}
-			$this['intentionForm']->setDefaults($row);
+			$values['id'] = $row['id'];
+			$values['date'] = $row['date']->format('Y-m-d');
+			$values['time'] = $row['time']->format('%H:%I:%S');
+			$values['intention'] = $row['intention'];
+			$values['amount'] = $row['amount'];
+			$this['intentionForm']->setDefaults($values);
+		} else {
+			$this->flashMessage('Nemáš práva pro editaci intencí.', 'danger');
+			$this->redirect('Intention:');
+		}
+	}
+
+	public function renderDelete($id, $date)
+	{
+		if($this->getUser()->isLoggedIn() && $this->getUser()->isAllowed('Intention','edit')) {
+			$row = $this->intentionManager->getById($id);
+			if (!$row) {
+				$date = new DateTime($date);
+				$this->flashMessage('Intence nenalezena.', 'danger');
+				$this->redirect('Intention:Statement',$date->format('Y-m-d'));
+			}
+			$values['id'] = $row['id'];
+			$values['date'] = $row['date']->format('Y-m-d');
+			$values['time'] = $row['time']->format('%H:%I:%S');
+			$values['intention'] = $row['intention'];
+			$values['amount'] = $row['amount'];
+			$this['intentionDeleteForm']->setDefaults($values);
+#			$this['intentionDeleteForm']['intention']->
+			$this['intentionDeleteForm']['intention']->setAttribute('readonly','readonly');
+			$this['intentionDeleteForm']['amount']->setAttribute('readonly','readonly');
+			$this['intentionDeleteForm']['save']->caption = 'Smazat intenci';
 		} else {
 			$this->flashMessage('Nemáš práva pro editaci intencí.', 'danger');
 			$this->redirect('Intention:');
@@ -135,10 +166,17 @@ class IntentionPresenter extends BasePresenter
 		return $form;
 	}
 
+	protected function createComponentIntentionDeleteForm($name)
+	{
+		$form = new Forms\IntentionForm($this, $name);
+		$form->onSuccess[] = [$this, 'intentionDeleteFormSubmitted'];
+		return $form;
+	}
+
 	public function intentionFormSubmitted(Forms\IntentionForm $form)
 	{
 		$values = $form->getValues();
-		$date = new \DateTime($values['date']);
+		$date = new DateTime($values['date']);
 		$result = $this->intentionManager->save($values);
 		$values['date'] = null;
 		if ($result === 'inserted') {
@@ -147,10 +185,46 @@ class IntentionPresenter extends BasePresenter
 			$this->flashMessage('Intence byla upravena.', 'success');
 		} elseif($result === 'deleted') {
 			$this->flashMessage('Intence byla smazána.', 'success');
+		} elseif($result === 'nocode') {
+			$this->flashMessage('Nebyl zadán kontrolní kód.', 'danger');
+		} elseif($result === 'falsecode') {
+			$this->flashMessage('Chybně zadaný kontrolní kód.', 'danger');
 		} elseif($result === FALSE) {
 			$this->flashMessage('Došlo k chybě při ukládání.', 'danger');
 		}
 		$this->redirect('Intention:Statement',$date->format('Y-m-d'));
+	}
+
+	public function intentionDeleteFormSubmitted(Forms\IntentionForm $form)
+	{
+		$values = $form->getValues();
+		$date = new DateTime($values['date']);
+		if(isset($values['code']) && $values['code'] > 0) {
+			$priest = $this->intentionManager->getNameByCode($values['code']);
+			if(isset($priest->name) && $priest->name != '') {
+				$result = $this->intentionManager->deleteById($values['id']);
+				$valuesLog = [
+					'date' => $values['date'],
+					'time' => $values['time'],
+					'intention' => $values['intention'],
+					'amount' => $values['amount'],
+					'code_id' => $values['code'],
+					'type' => 'delete',
+					'ts' => new DateTime()
+				];
+				$this->intentionManager->insertLog($valuesLog);
+				if ($result !== false) {
+					$this->flashMessage('Intence byla smazána.', 'success');
+				} else {
+					$this->flashMessage('Došlo k chybě při mazání intence.', 'danger');
+				}
+				$this->redirect('Intention:Statement',$date->format('Y-m-d'));
+			} else {
+				$this->flashMessage('Chybně zadaný kontrolní kód.', 'danger');
+			}
+		} else {
+			$this->flashMessage('Nezadaný kontrolní kód.', 'danger');
+		}
 	}
 
 	public function renderCode()
@@ -175,12 +249,12 @@ class IntentionPresenter extends BasePresenter
 		}
 	}
 
-	public function renderEditCode()
+	public function renderEditCode($id)
 	{
 		if($this->getUser()->isLoggedIn() && $this->getUser()->isAllowed('Intention','code')) {
 			$row = $this->intentionManager->getCodeById($id);
 			if (!$row) {
-				$date = new \DateTime($date);
+				$date = new DateTime($date);
 				$this->flashMessage('Přístupový kód nenalezen.', 'danger');
 				$this->redirect('Intention:Code');
 			}
@@ -233,16 +307,21 @@ class IntentionPresenter extends BasePresenter
 		}
 	}
 
-	public function renderProtocol()
+	public function renderProtocol($date)
 	{
 		if($this->getUser()->isLoggedIn() && $this->getUser()->isAllowed('Intention','protocol')) {
+			$navigation = $this['navigation'];
+			$date = new DateTime($navigation->date);
 			$this->template->addFilter('czechDate', 'App\Helpers\Helpers::czechDate');
 			$this->template->addFilter('currency', 'App\Helpers\Helpers::currency');
+			$this->template->addFilter('type', 'App\Helpers\Helpers::type');
 			$vp = $this['vp'];
 			$paginator = $vp->getPaginator();
-			$paginator->itemCount = $this->intentionManager->getCountAllLog();
+	#		$date = $date ? $date : new DateTime();
+			$by = ['date>=' => $date->format('Y-m-1'), 'date<=' => $date->format('Y-m-t')];
+			$paginator->itemCount = $this->intentionManager->getCountLogBy($by);
 			$this->template->page = $paginator->page;
-			$this->template->items = $this->intentionManager->findAllLog($paginator->itemsPerPage,$paginator->offset);
+			$this->template->items = $this->intentionManager->findLogBy($by,$paginator->itemsPerPage,$paginator->offset);
 		} else {
 			$this->flashMessage('Nemáš práva pro nahlížení do protokolu intencí.', 'danger');
 			$this->redirect('Intention:');
