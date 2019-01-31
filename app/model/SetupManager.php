@@ -9,7 +9,7 @@ use Nette,
 /**
 * Setup management.
 */
-class SetupManager extends Nette\Object
+class SetupManager
 {
 
 	public $web;

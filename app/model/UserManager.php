@@ -14,7 +14,7 @@ use Nette,
 /**
 * User Manager.
 */
-class UserManager extends Nette\Object
+class UserManager
 {
 
 	/** @var Model\UserRepository */

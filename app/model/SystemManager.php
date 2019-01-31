@@ -12,7 +12,7 @@ use Nette,
 /**
 * Setup management.
 */
-class SystemManager extends Nette\Object
+class SystemManager
 {
 
 	/** @var Model\UserRepository */

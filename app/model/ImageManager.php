@@ -10,7 +10,7 @@ use Nette,
 /**
 * Image Manager.
 */
-class ImageManager extends Nette\Object
+class ImageManager
 {
 
 	/** 

@@ -10,7 +10,7 @@ use Nette,
 /**
 * Page Manager.
 */
-class PageManager extends Nette\Object
+class PageManager
 {
 
 	/** 

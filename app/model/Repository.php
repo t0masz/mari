@@ -5,7 +5,7 @@ use Nette;
 /**
  * Provádí operace nad databázovou tabulkou.
  */
-abstract class Repository extends Nette\Object
+abstract class Repository
 {
 
 	/** @var Nette\Database\SelectionFactory  */

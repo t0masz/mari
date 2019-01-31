@@ -10,7 +10,7 @@ use Nette,
 /**
 * Log Manager.
 */
-class LogManager extends Nette\Object
+class LogManager
 {
 
 	/** @var Model\LogRepository */

@@ -10,7 +10,7 @@ use Nette,
 /**
 * Acolyte Manager.
 */
-class AcolyteManager extends Nette\Object
+class AcolyteManager
 {
 
 	/** 

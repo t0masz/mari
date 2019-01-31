@@ -10,7 +10,7 @@ use Nette,
 /**
 * Priest Manager.
 */
-class PriestManager extends Nette\Object
+class PriestManager
 {
 
 	/** 

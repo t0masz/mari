@@ -10,7 +10,7 @@ use Nette,
 /**
 * Intention Manager.
 */
-class IntentionManager extends Nette\Object
+class IntentionManager
 {
 
 	/** 
