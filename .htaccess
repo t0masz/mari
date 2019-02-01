@@ -1,0 +1,32 @@
+RewriteEngine on
+
+#RewriteCond %{HTTP_HOST} ^mari-magdalena.cz$ [NC,OR]
+#RewriteCond %{HTTP_HOST} ^www.mari-magdalena.cz$
+#RewriteCond %{REQUEST_URI} !www/
+#RewriteRule (.*) /www/$1 [L]
+
+#RewriteCond %{HTTP_HOST} !^www\.(.*)
+#RewriteRule (.*) http://www.%{HTTP_HOST}/$1 [R=301,L]
+
+RewriteCond     %{SERVER_PORT} ^80$
+RewriteRule     ^(.*)$ https://%{SERVER_NAME}%{REQUEST_URI} [L,R]
+
+# Redirect non www url to www
+RewriteCond %{HTTP_HOST} !^www\.(.*)$ [NC]
+RewriteRule ^(.*)$ http://www.mari-magdalena.cz/$1 [R=301,L]
+
+# Change example.com to be your main domain.
+RewriteCond %{HTTP_HOST} ^(www.)?mari-magdalena.cz$
+# Change 'subdirectory' to be the directory you will use for your main domain.
+RewriteCond %{REQUEST_URI} !^/www/
+# Don't change the following two lines.
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+# Change 'subdirectory' to be the directory you will use for your main domain.
+RewriteRule ^(.*)$ /www/$1
+# Change example.com to be your main domain again.
+# Change 'subdirectory' to be the directory you will use for your main domain
+# followed by / then the main file for your site, index.php, index.html, etc.
+RewriteCond %{HTTP_HOST} ^(www.)?mari-magdalena.cz$
+RewriteRule ^(/)?$ www/index.php [L]
+ 
