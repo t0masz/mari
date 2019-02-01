@@ -8,7 +8,7 @@ use Model,
 	Nette\Utils\Json,
 	App\Components,
 	App\Forms,
-	VisualPaginator;
+	IPub\VisualPaginator\Components as VisualPaginator;
 
 
 /**
@@ -123,7 +123,8 @@ abstract class BasePresenter extends Nette\Application\UI\Presenter
      */
 	public function createComponentVp($name)
 	{
-		$visualPaginator = new VisualPaginator($this, $name);
+		$visualPaginator = new VisualPaginator\Control;
+		$visualPaginator->setTemplateFile('bootstrap.latte');
 		$visualPaginator->getPaginator()->itemsPerPage = $this->config->paging;
 		return $visualPaginator;
 	}

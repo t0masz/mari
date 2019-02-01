@@ -21,7 +21,8 @@
 		"tracy/tracy": "^2.4",
 		"nextras/mail-panel": "^2.3",
 		"nextras/forms": "^2.0",
-		"voda/date-input": "^1.0"
+		"voda/date-input": "^1.0",
+		"ipub/visual-paginator": "@dev"
 	},
 	"minimum-stability": "stable"
 }
