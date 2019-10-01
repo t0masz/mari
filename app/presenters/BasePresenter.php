@@ -124,6 +124,7 @@ abstract class BasePresenter extends Nette\Application\UI\Presenter
 	public function createComponentVp($name)
 	{
 		$visualPaginator = new VisualPaginator\Control;
+        $visualPaginator->disableAjax();
 		$visualPaginator->setTemplateFile('bootstrap.latte');
 		$visualPaginator->getPaginator()->itemsPerPage = $this->config->paging;
 		return $visualPaginator;
