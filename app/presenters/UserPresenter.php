@@ -95,7 +95,7 @@ class UserPresenter extends SecurePresenter
 	{
 		if($this->getUser()->isLoggedIn()) {
 			$values = $form->getValues();
-			$result = $this->userManager->savePassword($values,$this->user->Identity->id);
+			$result = $this->userManager->savePassword($values,$this->user->identity->id);
 	
 			$this->id = NULL;
 			if ($result == 'updated') {

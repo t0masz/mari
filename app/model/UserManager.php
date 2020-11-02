@@ -29,12 +29,13 @@ class UserManager
 	/** @var Model\SetupManager */
 	private $config;
 
-	public function __construct(UserRepository $repository, Authenticator $authenticator, SetupManager $setup, IMailer $mailer)
+	public function __construct(UserRepository $repository, Authenticator $authenticator, SetupManager $setup, IMailer $mailer, Passwords $passwords)
 	{
 		$this->userRepository = $repository;
 		$this->authenticator = $authenticator;
 		$this->mailer = $mailer;
 		$this->config = $setup;
+        $this->passwords = $passwords;
 	}
 
 
@@ -93,7 +94,7 @@ class UserManager
 		if ($values->password == '')
 			unset($values->password);
 		else
-			$values->password = Passwords::hash($values->password);
+			$values->password = $this->passwords->hash($values->password);
 		if ($id) {
 			$result = $this->userRepository->findBy(array('id' => (int)$id))->update((array)$values);
 			$return = $result > 0 ? 'updated' : FALSE;
@@ -111,8 +112,8 @@ class UserManager
 	public function savePassword($values, $id)
 	{
 		$user = $this->userRepository->findBy(array('id' => (int)$id))->fetch();
-		$password = Passwords::hash($values->newPassword);
-		if (!Passwords::verify($values->oldPassword, $user->password)) {
+		$password = $this->passwords->hash($values->newPassword);
+		if (!$this->passwords->verify($values->oldPassword, $user->password)) {
 			return 'wrong';
 		} else {
 			$result = $this->userRepository->findBy(array('id' => (int)$id))->update(array('password' => $password));
@@ -135,7 +136,7 @@ class UserManager
 		for ($i=0;$i<8;$i++) {
 			$newPassword .= $possibleChars[mt_rand(0,$countChars - 1)];
 		}
-		$password = Passwords::hash($newPassword);
+		$password = $this->passwords->hash($newPassword);
 		$latte = new Latte\Engine;
 		if (!$user->sent) {
 			$template = __DIR__ . '/../templates/Email/firstPassword.latte';
