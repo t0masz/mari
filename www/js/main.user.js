@@ -5,24 +5,24 @@
  */
 
 $(function($, undefined){
-	$.nette.ext('confirm', {
-		load: function () {
-			$('[data-confirm]').click(function(e){
-				if($(this).data('id')>0) {
-					e.preventDefault();
-					var question = $(this).data('confirm');
-					if (question) {
-						if (!confirm(question)) {
-							e.stopImmediatePropagation();
-							return false;
-						} else {
-							return true;
-						}
-					}
-				}
-			});
-		}
-	});
+//	$.nette.ext('confirm', {
+//		load: function () {
+//			$('[data-confirm]').click(function(e){
+//				if($(this).data('id')>0) {
+//					e.preventDefault();
+//					var question = $(this).data('confirm');
+//					if (question) {
+//						if (!confirm(question)) {
+//							e.stopImmediatePropagation();
+//							return false;
+//						} else {
+//							return true;
+//						}
+//					}
+//				}
+//			});
+//		}
+//	});
 	$.nette.ext('setData', {
 		load: function () {
 			$('#acolyte tr td.ms').click(function(e){
