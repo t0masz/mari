@@ -21,8 +21,8 @@
 		<td><a href="mailto:{$item->email}">{$item->email}</a></td>
 		<td class="actions">
 			<a href="{link User:edit, $item->id}" title="Upravit položku"><span class="glyphicon glyphicon-pencil"></span></a>&nbsp;&bull;&nbsp;
-			<a href="{link send!, $item->id}" data-id="{$item->id}" data-confirm="Opravdu vygenerovat a poslat uživateli '{$item->name}' nové heslo?" title="Vygenerovat a odeslat nové heslo"><span class="glyphicon glyphicon-envelope"></span></a>&nbsp;&bull;&nbsp;
-			<a href="{link delete!, $item->id}" data-id="{$item->id}" data-confirm="Opravdu smazat uživatele '{$item->name}'?" title="Smazat položku"><span class="glyphicon glyphicon-trash"></span></a>
+			<a href="{link send!, $item->id}" {*data-id="{$item->id}" data-confirm="Opravdu vygenerovat a poslat uživateli '{$item->name}' nové heslo?"*} title="Vygenerovat a odeslat nové heslo"><span class="glyphicon glyphicon-envelope"></span></a>&nbsp;&bull;&nbsp;
+			<a href="{link delete!, $item->id}" {*data-id="{$item->id}" data-confirm="Opravdu smazat uživatele '{$item->name}'?"*} title="Smazat položku"><span class="glyphicon glyphicon-trash"></span></a>
 		</td>
   </tr>
 </table>
