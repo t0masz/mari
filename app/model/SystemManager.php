@@ -48,7 +48,7 @@ class SystemManager
 		$message = new Message;
 		$message->setFrom($userIdentity->email,$userIdentity->name)
 			->addTo($this->config->mail['adminMail'],$this->config->mail['adminName'])
-			->setHtmlBody($latte->renderToString('app/templates/Email/adminMessage.latte', $params));
+			->setHtmlBody($latte->renderToString(__DIR__ . '/../templates/Email/adminMessage.latte', $params));
 		try {
 			$this->mailer->send($message);
 			return TRUE;

@@ -40,7 +40,7 @@ class SystemPresenter extends SecurePresenter
 	public function adminMailFormSubmitted(Forms\AdminMailForm $form)
 	{
 		$values = $form->getValues();
-		$result = $this->systemManager->sendMailToAdmin($values,$this->getUser()->Identity);
+		$result = $this->systemManager->sendMailToAdmin($values,$this->getUser()->identity);
 
 		if ($result === TRUE) {
 			$this->flashMessage('Zpráva byla v pořádku odeslána.', 'success');

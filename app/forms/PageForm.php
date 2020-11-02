@@ -2,10 +2,10 @@
 
 namespace App\Forms;
 
-use Nette\Application\UI\Form,
-	Nextras\Forms\Rendering\Bs3FormRenderer,
-	Nette\Utils\Html,
-	Nette\ComponentModel\IContainer;
+use Nette\Application\UI\Form;
+use Nextras\FormsRendering\Renderers\Bs3FormRenderer;
+use Nette\Utils\Html;
+use Nette\ComponentModel\IContainer;
 
 class PageForm extends Form {
 	

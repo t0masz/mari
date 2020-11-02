@@ -12,7 +12,7 @@ class Menu extends Control
 
 	public function __construct(Model\PageManager $model)
 	{
-		parent::__construct(); # vždy je potřeba volat rodičovský konstruktor
+//		parent::__construct(); # vždy je potřeba volat rodičovský konstruktor
 		$this->pageManager = $model;
 	}
 
